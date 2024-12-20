@@ -1,0 +1,28 @@
+{
+  "name": "@thebigrick/catalyst-payloadcms",
+  "version": "0.0.1",
+  "description": "PayloadCMS integration for Catalyst",
+  "scripts": {
+    "dev": "npx tsx src/scripts/run-dev.ts",
+    "build": "npx tsx src/scripts/build.ts",
+    "setup": "npx tsx src/scripts/setup.ts"
+  },
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@payloadcms/db-mongodb": "^3.9.0",
+    "@payloadcms/next": "^3.9.0",
+    "@payloadcms/richtext-lexical": "^3.9.0",
+    "graphql": "^16.10.0",
+    "payload": "^3.9.0",
+    "sharp": "^0.33.5",
+    "next": "15.1.0",
+    "react": "^19.0.0"
+  },
+  "devDependencies": {
+    "tsx": "^4.19.2",
+    "@types/node": "^20.17.6",
+    "typescript": "^5.6.3",
+    "@types/react": "^19.0.1"
+  }
+}
