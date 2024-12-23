@@ -1,4 +1,4 @@
-# @thebigrick/catalyst-payloadcms
+# Catalyst integration for PayloadCMS (@thebigrick/catalyst-payloadcms)
 
 A plugin to integrate PayloadCMS with BigCommerce Catalyst framework using the Pluginizr system.
 
@@ -32,16 +32,6 @@ cd plugins
 git clone https://github.com/thebigrick/catalyst-payloadcms.git
 ```
 
-### Move the admin path:
-
-> This is a temporary solution that must me addressed in future releases.
-
-To avoid conflicts with the BigCommerce admin panel path, you should move the BigCommerce admin path to a different location. To do this, rename the `admin` directory in `core/app` to something else (e.g. `bigadmin`).
-
-```bash
-mv core/app/admin core/app/bigadmin
-```
-
 ## Usage
 
 ### Environment Variables
@@ -61,7 +51,7 @@ Start the Catalyst server:
 pnpm run dev
 ```
 
-Access the PayloadCMS admin panel by navigating to `http://localhost:3000/admin`.
+Access the PayloadCMS admin panel by navigating to `http://localhost:3000/payload/admin`.
 
 ### Extending PayloadCMS Configuration
 

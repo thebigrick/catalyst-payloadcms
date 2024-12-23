@@ -42,6 +42,13 @@ const config: Config = {
   // This is optional - if you don't need to do these things,
   // you don't need it!
   sharp,
+
+  routes: {
+    api: '/payload/api',
+    admin: '/payload/admin',
+    graphQL: '/payload/graphql',
+    graphQLPlayground: '/payload/graphql-playground',
+  },
 };
 
 export default config;

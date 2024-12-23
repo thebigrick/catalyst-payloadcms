@@ -11,8 +11,10 @@
   "license": "MIT",
   "dependencies": {
     "@payloadcms/db-mongodb": "^3.9.0",
+    "@bigcommerce/catalyst-core": "workspace:*",
     "@payloadcms/next": "^3.9.0",
     "@payloadcms/richtext-lexical": "^3.9.0",
+    "@thebigrick/catalyst-pluginizr": "workspace:*",
     "graphql": "^16.10.0",
     "payload": "^3.9.0",
     "sharp": "^0.33.5",
