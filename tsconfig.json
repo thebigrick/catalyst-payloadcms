@@ -21,8 +21,11 @@
     "resolveJsonModule": true,
     "jsx": "react",
     "paths": {
+      "@thebigrick/catalyst-payloadcms/*": [
+        "./src/*"
+      ],
       "@payload-config": [
-        "./src/built.config.ts"
+        "./src/payload.config.ts"
       ]
     }
   },

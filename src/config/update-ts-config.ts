@@ -11,16 +11,23 @@ const updateTsConfig = () => {
   tsconfig.compilerOptions = tsconfig.compilerOptions || {};
   tsconfig.compilerOptions.paths = tsconfig.compilerOptions.paths || {};
 
-  if (!tsconfig.compilerOptions.paths['@payload-config']) {
-    const payloadConfigPath = path
-      .relative(
-        path.dirname(tsconfigPath),
-        path.resolve(path.join(__dirname, '..', 'payload.config.ts')),
-      )
+  // if (!tsconfig.compilerOptions.paths['@payload-config']) {
+  //   const payloadConfigPath = path
+  //     .relative(
+  //       path.dirname(tsconfigPath),
+  //       path.resolve(path.join(__dirname, '..', 'payload.config.ts')),
+  //     )
+  //     .replace(/\\/g, '/');
+  //
+  //   tsconfig.compilerOptions.paths['@payload-config'] = [payloadConfigPath];
+  // }
+
+  if (!tsconfig.compilerOptions.paths['@thebigrick/catalyst-payloadcms/*']) {
+    const payloadSrcPath = path
+      .relative(path.dirname(tsconfigPath), path.resolve(path.join(__dirname, '..', '*')))
       .replace(/\\/g, '/');
 
-    tsconfig.compilerOptions.paths['@payload-config'] = [payloadConfigPath];
-    // tsconfig.compilerOptions.paths['@payload-config'] = ['./payload.config.ts'];
+    tsconfig.compilerOptions.paths['@thebigrick/catalyst-payloadcms/*'] = [payloadSrcPath];
   }
 
   fs.writeFileSync(tsconfigPath, JSON.stringify(tsconfig, null, 2));

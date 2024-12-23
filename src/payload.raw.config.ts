@@ -46,7 +46,7 @@ const config: Config = {
   routes: {
     api: '/payload/api',
     admin: '/payload/admin',
-    graphQL: '/payload/graphql',
+    graphQL: '/graphql',
     graphQLPlayground: '/payload/graphql-playground',
   },
 };

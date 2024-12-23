@@ -60,7 +60,7 @@ const config = {
     'test-results/**',
     '**/google_analytics4.js',
     '*.test.js',
-    'src/app/(payload)/**',
+    'src/files/**',
   ],
 };
 
