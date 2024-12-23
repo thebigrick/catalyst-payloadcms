@@ -25,11 +25,11 @@ This plugin requires:
 
 ## Installation
 
-Clone or copy this repository into your Catalyst project's `plugins` directory:
+Clone as submodule this repository into your Catalyst project's `plugins` directory:
 
 ```bash
-cd plugins
-git clone https://github.com/thebigrick/catalyst-payloadcms.git
+cd /path-to-catalyst
+git submodule add https://github.com/thebigrick/catalyst-payloadcms.git plugins/catalyst-payloadcms
 ```
 
 ## Usage
