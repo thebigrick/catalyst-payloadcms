@@ -1,8 +1,8 @@
 import { middleware } from '@bigcommerce/catalyst-core/middleware';
-import { registerValuePlugin } from '@thebigrick/catalyst-pluginizr';
+import { valuePlugin } from '@thebigrick/catalyst-pluginizr';
 import { NextFetchEvent, NextRequest, NextResponse } from 'next/server';
 
-registerValuePlugin<typeof middleware>({
+const plugin = valuePlugin<typeof middleware>({
   name: 'exclude-payload-from-middleware',
   resourceId: '@bigcommerce/catalyst-core/middleware:middleware',
 
@@ -16,3 +16,5 @@ registerValuePlugin<typeof middleware>({
     };
   },
 });
+
+export default plugin;

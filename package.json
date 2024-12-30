@@ -2,9 +2,12 @@
   "name": "@thebigrick/catalyst-payloadcms",
   "version": "0.0.1",
   "description": "PayloadCMS integration for Catalyst",
+  "main": "src/index.ts",
+  "types": "src/index.ts",
+  "type": "module",
   "scripts": {
-    "dev": "npx tsx src/scripts/run-dev.ts",
-    "build": "npx tsx src/scripts/build.ts",
+    "dev": "payload generate:types && npx tsx src/scripts/run-dev.ts",
+    "build": "payload generate:types && npx tsx src/scripts/build.ts",
     "setup": "npx tsx src/scripts/setup.ts"
   },
   "author": "Riccardo Tempesta <riccardo.tempesta@bigcommerce.com>",
@@ -15,11 +18,14 @@
     "@payloadcms/db-mongodb": "^3.11.0",
     "@payloadcms/next": "^3.11.0",
     "@payloadcms/richtext-lexical": "^3.11.0",
+    "@payloadcms/live-preview-react": "^3.12.0",
     "graphql": "^16.10.0",
     "payload": "^3.11.0",
     "sharp": "^0.33.5",
     "next": "15.1.0",
-    "react": "^19.0.0"
+    "react": "^19.0.0",
+    "gql.tada": "^1.8.10",
+    "@0no-co/graphql.web": "^1.0.12"
   },
   "devDependencies": {
     "tsx": "^4.19.2",

@@ -11,6 +11,7 @@
     "inlineSources": false,
     "incremental": true,
     "isolatedModules": true,
+    "module": "esnext",
     "moduleResolution": "node",
     "noUnusedLocals": false,
     "noUnusedParameters": false,
@@ -22,10 +23,10 @@
     "jsx": "react",
     "paths": {
       "@thebigrick/catalyst-payloadcms/*": [
-        "./src/*"
+        "./*"
       ],
       "@payload-config": [
-        "./src/payload.config.ts"
+        "./payload.config.ts"
       ]
     }
   },

@@ -60,13 +60,13 @@ The plugin provides a base PayloadCMS configuration that can be extended through
 To add collections or modify the PayloadCMS configuration, create a local plugin using [Pluginizr](https://github.com/thebigrick/catalyst-pluginizr) and register your modifications as shown below:
 
 ```typescript
-// plugins/my-plugin/src/register-plugins.ts
+// plugins/my-plugin/src/plugins/add-my-collection.ts
 
-import { registerValuePlugin } from "@thebigrick/catalyst-pluginizr";
+import { valuePlugin } from "@thebigrick/catalyst-pluginizr";
 import { Config } from "payload";
 import { Media } from "./collections/Media";
 
-registerValuePlugin<Config>({
+export default valuePlugin<Config>({
     name: "PayloadCMSConfig",
     resourceId: "@thebigrick/catalyst-payloadcms/payload.raw.config",
     wrap: (config) => ({

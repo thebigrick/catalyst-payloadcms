@@ -1,7 +1,10 @@
+import { mongooseAdapter } from '@payloadcms/db-mongodb';
 import { lexicalEditor } from '@payloadcms/richtext-lexical';
+import path from 'node:path';
+import { dirname } from 'path';
 import { Config } from 'payload';
 import sharp from 'sharp';
-import {mongooseAdapter} from "@payloadcms/db-mongodb";
+import { fileURLToPath } from 'url';
 
 /*
 If you need to extend the configuration, please use:
@@ -23,6 +26,8 @@ registerValuePlugin<Config>({
 ```
 */
 
+const selfPath = fileURLToPath(dirname(import.meta.url));
+
 const config: Config = {
   editor: lexicalEditor(),
 
@@ -36,11 +41,25 @@ const config: Config = {
 
   sharp,
 
+  admin: {
+    importMap: {
+      autoGenerate: false,
+      baseDir: path.resolve(path.join(selfPath, 'app', 'admin', 'importMap.js')),
+    },
+    livePreview: {
+      url: process.env.NEXT_PUBLIC_URL || 'http://localhost:3000',
+    },
+  },
+
   routes: {
     api: '/payload/api',
     admin: '/payload/admin',
     graphQL: '/graphql',
     graphQLPlayground: '/payload/graphql-playground',
+  },
+
+  typescript: {
+    outputFile: path.resolve(selfPath, './generated-types.ts'),
   },
 };
 
