@@ -19,13 +19,32 @@
     "@payloadcms/next": "^3.11.0",
     "@payloadcms/richtext-lexical": "^3.11.0",
     "@payloadcms/live-preview-react": "^3.12.0",
-    "graphql": "^16.10.0",
     "payload": "^3.11.0",
-    "sharp": "^0.33.5",
-    "next": "15.1.0",
-    "react": "^19.0.0",
-    "gql.tada": "^1.8.10",
-    "@0no-co/graphql.web": "^1.0.12"
+    "sharp": "^0.33.5"
+  },
+  "peerDependencies": {
+    "next": "*",
+    "react": "*",
+    "gql.tada": "*",
+    "@0no-co/graphql.web": "*",
+    "graphql": "*"
+  },
+  "peerDependenciesMeta": {
+    "next": {
+      "optional": false
+    },
+    "react": {
+      "optional": false
+    },
+    "gql.tada": {
+      "optional": false
+    },
+    "@0no-co/graphql.web": {
+      "optional": false
+    },
+    "graphql": {
+      "optional": false
+    }
   },
   "devDependencies": {
     "tsx": "^4.19.2",

@@ -5,6 +5,7 @@ import { dirname } from 'path';
 import { Config } from 'payload';
 import sharp from 'sharp';
 import { fileURLToPath } from 'url';
+import rawBuildConfig from '@bigcommerce/catalyst-core/build-config/build-config.json';
 
 /*
 If you need to extend the configuration, please use:
@@ -13,8 +14,8 @@ If you need to extend the configuration, please use:
 import { registerValuePlugin } from "@thebigrick/catalyst-pluginizr";
 import { Config } from "payload";
 
-registerValuePlugin<Config>({
-  name: "PayloadCMSConfig",
+export default valuePlugin<Config>({
+  name: "add-my-custom-config",
   resourceId: "@thebigrick/catalyst-payloadcms/payload.raw.config",
   wrap: (config) => {
     return {
@@ -25,6 +26,8 @@ registerValuePlugin<Config>({
 });
 ```
 */
+
+const locales = rawBuildConfig.locales.map((locale) => locale.code);
 
 const selfPath = fileURLToPath(dirname(import.meta.url));
 
@@ -49,6 +52,12 @@ const config: Config = {
     livePreview: {
       url: process.env.NEXT_PUBLIC_URL || 'http://localhost:3000',
     },
+  },
+
+  localization: {
+    defaultLocale: 'en',
+    locales,
+    fallback: true,
   },
 
   routes: {
