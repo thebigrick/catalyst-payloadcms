@@ -1,7 +1,7 @@
-import { generatePageMetadata, RootPage } from '@payloadcms/next/views';
+import { generatePageMetadata, NotFoundPage } from '@payloadcms/next/views';
 import type { Metadata } from 'next';
 
-import config from '../../../payload.config';
+import config from '@payload-config';
 import { importMap } from '../importMap.js';
 
 interface Args {
@@ -14,7 +14,7 @@ interface Args {
 export const generateMetadata = ({ params, searchParams }: Args): Promise<Metadata> =>
   generatePageMetadata({ config, params, searchParams });
 
-const Page = ({ params, searchParams }: Args) =>
-  RootPage({ config, importMap, params, searchParams });
+const NotFound = ({ params, searchParams }: Args) =>
+  NotFoundPage({ config, importMap, params, searchParams });
 
-export default Page;
+export default NotFound;

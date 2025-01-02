@@ -1,3 +1,3 @@
-export { default as payloadClient } from './service/payload-client';
+export { default as payloadClient } from './service/get-document';
 export * from './generated-types'
 export { RefreshRouteOnSave } from './components/RefreshRouteOnSave';

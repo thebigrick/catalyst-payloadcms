@@ -1,6 +1,6 @@
 {
   "name": "@thebigrick/catalyst-payloadcms",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "PayloadCMS integration for Catalyst",
   "main": "src/index.ts",
   "types": "src/index.ts",
@@ -8,26 +8,28 @@
   "scripts": {
     "dev": "payload generate:types && npx tsx src/scripts/run-dev.ts",
     "build": "payload generate:types && npx tsx src/scripts/build.ts",
-    "setup": "npx tsx src/scripts/setup.ts"
+    "setup": "npx tsx src/scripts/setup.ts",
+    "generate": "npx tsx src/scripts/generate.ts"
   },
   "author": "Riccardo Tempesta <riccardo.tempesta@bigcommerce.com>",
   "license": "MIT",
   "dependencies": {
     "@bigcommerce/catalyst-core": "workspace:*",
-    "@thebigrick/catalyst-pluginizr": "workspace:*",
     "@payloadcms/db-mongodb": "^3.11.0",
+    "@payloadcms/live-preview-react": "^3.12.0",
     "@payloadcms/next": "^3.11.0",
     "@payloadcms/richtext-lexical": "^3.11.0",
-    "@payloadcms/live-preview-react": "^3.12.0",
+    "@thebigrick/catalyst-pluginizr": "workspace:*",
     "payload": "^3.11.0",
+    "qs-esm": "^7.0.2",
     "sharp": "^0.33.5"
   },
   "peerDependencies": {
-    "next": "*",
-    "react": "*",
-    "gql.tada": "*",
-    "@0no-co/graphql.web": "*",
-    "graphql": "*"
+    "@0no-co/graphql.web": "~1.0.12",
+    "gql.tada": "~1.8.10",
+    "graphql": "~16.10.0",
+    "next": "~15",
+    "react": "~19"
   },
   "peerDependenciesMeta": {
     "next": {
@@ -47,9 +49,10 @@
     }
   },
   "devDependencies": {
-    "tsx": "^4.19.2",
+    "@gql.tada/cli-utils": "^1.6.3",
     "@types/node": "^20.17.6",
-    "typescript": "^5.6.3",
-    "@types/react": "^19.0.1"
+    "@types/react": "^19.0.1",
+    "tsx": "^4.19.2",
+    "typescript": "^5.6.3"
   }
 }

@@ -6,6 +6,8 @@ import { Config } from 'payload';
 import sharp from 'sharp';
 import { fileURLToPath } from 'url';
 import rawBuildConfig from '@bigcommerce/catalyst-core/build-config/build-config.json';
+import Page from "./collections/page";
+import {SlideImage} from "@thebigrick/catalyst-payloadcms/collections/slide-image";
 
 /*
 If you need to extend the configuration, please use:
@@ -34,7 +36,7 @@ const selfPath = fileURLToPath(dirname(import.meta.url));
 const config: Config = {
   editor: lexicalEditor(),
 
-  collections: [],
+  collections: [Page, SlideImage],
 
   secret: process.env.PAYLOAD_SECRET || '',
 
@@ -70,6 +72,8 @@ const config: Config = {
   typescript: {
     outputFile: path.resolve(selfPath, './generated-types.ts'),
   },
+
+
 };
 
 export default config;

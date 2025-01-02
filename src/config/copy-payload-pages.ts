@@ -11,20 +11,19 @@ const copyPayloadPages = () => {
   const selfPath = fileURLToPath(dirname(import.meta.url));
   const catalystRoot = path.resolve(selfPath, '../../../../');
 
-  const absoluteSource = path.resolve(path.join(selfPath, '../files/(payload)'));
-  const absoluteTarget = path.resolve(path.join(catalystRoot, 'core/app/(payload)'));
-
-  if (fs.existsSync(absoluteTarget)) {
-    return;
+  const directories = {
+    [path.resolve(path.join(selfPath, '../files/(payload)'))]: path.resolve(path.join(catalystRoot, 'core/app/(payload)')),
+    [path.resolve(path.join(selfPath, '../files/[locale]/(default)/(payload)'))]: path.resolve(path.join(catalystRoot, 'core/app/[locale]/(default)/(payload)')),
   }
 
-  const targetDir = path.dirname(absoluteTarget);
+  for (const [source, target] of Object.entries(directories)) {
+    if (fs.existsSync(target)) {
+      continue;
+    }
 
-  if (!fs.existsSync(targetDir)) {
-    fs.mkdirSync(targetDir, { recursive: true });
+      fs.mkdirSync(target, { recursive: true });
+      fs.cpSync(source, target, { recursive: true });
   }
-
-  fs.cpSync(absoluteSource, absoluteTarget, { recursive: true });
 };
 
 export default copyPayloadPages;
