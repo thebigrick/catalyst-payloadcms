@@ -2,7 +2,7 @@ import { tv } from 'tailwind-variants';
 
 const sliderSlots = tv({
   slots: {
-    slider: 'w-full h-[500px]',
+    base: 'w-full h-[500px]',
     sliderImage: 'absolute inset-0 w-full h-full object-cover',
     overlayWrapper: 'absolute inset-0 w-full h-full object-cover',
     overlayContainer:

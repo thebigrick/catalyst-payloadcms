@@ -1,18 +1,9 @@
-import { FragmentDefinitionNode } from 'graphql/language';
-
+import containerPageBlockFragments from '@thebigrick/catalyst-payloadcms/gql/query/fragments/container-page-block-fragments';
 import pageBlockFragments from '@thebigrick/catalyst-payloadcms/gql/query/fragments/page-block-fragments';
-import extractFragments from '@thebigrick/catalyst-payloadcms/service/extract-fragments';
+import getFragmentsQuery from '@thebigrick/catalyst-payloadcms/service/get-fragments-query';
 import { payloadGraphql } from '@thebigrick/catalyst-payloadcms/service/payload-graphql';
 
-const fragments: Record<string, FragmentDefinitionNode> = pageBlockFragments.reduce(
-  (acc, fragment) => {
-    return {
-      ...acc,
-      ...extractFragments(fragment),
-    };
-  },
-  {},
-);
+const fragmentData = getFragmentsQuery([...pageBlockFragments, ...containerPageBlockFragments]);
 
 const GetPageByIdQuery = payloadGraphql(
   `
@@ -27,15 +18,13 @@ query PageQuery($id: String!, $locale:LocaleInputType!, $draft:Boolean) {
     }
     blocks {
       __typename
-      ${Object.keys(fragments)
-        .map((key) => `...${key}`)
-        .join('\n')}
+      ${fragmentData.request}
     }
   }
 }
 `,
   // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
-  Object.values(fragments) as never[],
+  fragmentData.fragments as never[],
 );
 
 export default GetPageByIdQuery;

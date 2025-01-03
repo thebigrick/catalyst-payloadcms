@@ -1,15 +1,37 @@
-import type { Block } from 'payload';
+import type { CollectionConfig } from 'payload';
 
-export const Image: Block = {
+import isFrontendRequest from '@thebigrick/catalyst-payloadcms/service/is-frontend-request';
+
+export const Image: CollectionConfig = {
   slug: 'image',
-  interfaceName: 'ImageBlock',
+  access: {
+    read: isFrontendRequest,
+  },
+  upload: {
+    staticDir: 'payloadcms/images',
+    imageSizes: [
+      {
+        name: 'thumbnail',
+        width: 921,
+        height: 300,
+        position: 'centre',
+        fit: 'cover',
+      },
+      {
+        name: 'full',
+        width: 1536,
+        height: 500,
+        position: 'centre',
+        fit: 'cover',
+      },
+    ],
+    adminThumbnail: 'thumbnail',
+    mimeTypes: ['image/*'],
+  },
   fields: [
     {
-      name: 'image',
-      type: 'upload',
-      relationTo: 'slide-image',
-      required: true,
-      localized: true,
+      name: 'alt',
+      type: 'text',
     },
   ],
 };

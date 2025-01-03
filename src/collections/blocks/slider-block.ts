@@ -1,6 +1,6 @@
 import type { Block } from 'payload';
 
-export const Slider: Block = {
+export const SliderBlock: Block = {
   slug: 'slider',
   interfaceName: 'SliderBlock',
   fields: [
@@ -52,7 +52,7 @@ export const Slider: Block = {
         {
           name: 'image',
           type: 'upload',
-          relationTo: 'slide-image',
+          relationTo: 'image',
           required: true,
           localized: true,
         },

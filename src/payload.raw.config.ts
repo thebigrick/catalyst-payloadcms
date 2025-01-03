@@ -7,7 +7,7 @@ import { Config } from 'payload';
 import sharp from 'sharp';
 import { fileURLToPath } from 'url';
 
-import { SlideImage } from '@thebigrick/catalyst-payloadcms/collections/slide-image';
+import { Image } from '@thebigrick/catalyst-payloadcms/collections/image';
 
 import Page from './collections/page';
 
@@ -38,7 +38,7 @@ const selfPath = fileURLToPath(dirname(import.meta.url));
 const config: Config = {
   editor: lexicalEditor(),
 
-  collections: [Page, SlideImage],
+  collections: [Page, Image],
 
   secret: process.env.PAYLOAD_SECRET || '',
 

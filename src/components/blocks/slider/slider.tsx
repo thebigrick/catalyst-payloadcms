@@ -6,7 +6,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 
 import Slide from '@thebigrick/catalyst-payloadcms/components/blocks/slider/slide';
 import sliderSlots from '@thebigrick/catalyst-payloadcms/components/blocks/slider/slider-slots';
-import { SlideImage, SliderBlock } from '@thebigrick/catalyst-payloadcms/generated-types';
+import { Image, SliderBlock } from '@thebigrick/catalyst-payloadcms/generated-types';
 import useTvSlots from '@thebigrick/catalyst-payloadcms/hooks/use-tv-slots';
 import { BlockComponentProps } from '@thebigrick/catalyst-payloadcms/types';
 
@@ -33,7 +33,7 @@ const Slider: React.FC<SliderProps> = (props) => {
             }
           : false
       }
-      className={slots.slider()}
+      className={slots.base()}
       modules={[Parallax, Autoplay, Navigation, Pagination]}
       navigation={block.showNavigation}
       pagination={block.showPagination}
@@ -43,7 +43,7 @@ const Slider: React.FC<SliderProps> = (props) => {
     >
       {block.slides.map((slide, index) => {
         // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
-        const image = slide.image as SlideImage | null;
+        const image = slide.image as Image | null;
 
         if (!image?.url) {
           return null;

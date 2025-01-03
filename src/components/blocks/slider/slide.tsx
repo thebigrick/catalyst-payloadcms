@@ -1,10 +1,10 @@
-import Image from 'next/image';
+import NextImage from 'next/image';
 import React from 'react';
 
 import SlideOverlay from '@thebigrick/catalyst-payloadcms/components/blocks/slider/slide-overlay';
 import { SliderProps } from '@thebigrick/catalyst-payloadcms/components/blocks/slider/slider';
 import sliderSlots from '@thebigrick/catalyst-payloadcms/components/blocks/slider/slider-slots';
-import { SlideImage, SliderBlock } from '@thebigrick/catalyst-payloadcms/generated-types';
+import { Image, SliderBlock } from '@thebigrick/catalyst-payloadcms/generated-types';
 import useTvSlots from '@thebigrick/catalyst-payloadcms/hooks/use-tv-slots';
 
 export interface SlideProps {
@@ -15,7 +15,7 @@ export interface SlideProps {
 const Slide: React.FC<SlideProps> = (props) => {
   const { slide, slider } = props;
   // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
-  const image = slide.image as SlideImage;
+  const image = slide.image as Image;
 
   const slots = useTvSlots(sliderSlots, undefined, {
     ...props.slider,
@@ -24,7 +24,7 @@ const Slide: React.FC<SlideProps> = (props) => {
 
   return (
     <>
-      <Image
+      <NextImage
         alt={image.alt || ''}
         className={slots.sliderImage()}
         height={0}
