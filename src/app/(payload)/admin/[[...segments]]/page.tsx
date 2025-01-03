@@ -2,6 +2,7 @@ import { generatePageMetadata, RootPage } from '@payloadcms/next/views';
 import type { Metadata } from 'next';
 
 import config from '@payload-config';
+
 import { importMap } from '../importMap.js';
 
 interface Args {

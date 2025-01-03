@@ -1,4 +1,4 @@
-import {AccessArgs} from "payload";
+import { AccessArgs } from 'payload';
 
 /**
  * Determine if the request is coming from the frontend
@@ -6,11 +6,12 @@ import {AccessArgs} from "payload";
  * @returns {boolean}
  */
 const isFrontendRequest = (args: AccessArgs): boolean => {
-    const {req} = args;
-    if (args?.req?.user) return true;
-    if (!process.env.PAYLOAD_CMS_FRONTEND_TOKEN) return false;
+  const { req } = args;
 
-    return req.headers.get('X-Payload-CMS-Auth') === process.env.PAYLOAD_CMS_FRONTEND_TOKEN;
-}
+  if (args.req.user) return true;
+  if (!process.env.PAYLOAD_CMS_FRONTEND_TOKEN) return false;
+
+  return req.headers.get('X-Payload-CMS-Auth') === process.env.PAYLOAD_CMS_FRONTEND_TOKEN;
+};
 
 export default isFrontendRequest;

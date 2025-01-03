@@ -9,7 +9,10 @@
     "dev": "payload generate:types && npx tsx src/scripts/run-dev.ts",
     "build": "payload generate:types && npx tsx src/scripts/build.ts",
     "setup": "npx tsx src/scripts/setup.ts",
-    "generate": "npx tsx src/scripts/generate.ts"
+    "generate": "npx tsx src/scripts/generate.ts",
+    "lint": "eslint . --ext .ts,.tsx,.js,.cjs --max-warnings 0",
+    "typecheck": "tsc --noEmit",
+    "lint-fix": "eslint . --ext .ts,.js,.cjs --fix"
   },
   "author": "Riccardo Tempesta <riccardo.tempesta@bigcommerce.com>",
   "license": "MIT",
@@ -22,12 +25,15 @@
     "@thebigrick/catalyst-pluginizr": "workspace:*",
     "payload": "^3.11.0",
     "qs-esm": "^7.0.2",
-    "sharp": "^0.33.5"
+    "sharp": "^0.33.5",
+    "swiper": "^11.2.0",
+    "graphql": "^16.9.0",
+    "tailwind-variants": "^0.3.0",
+    "tailwind-merge": "^2.6.0"
   },
   "peerDependencies": {
     "@0no-co/graphql.web": "~1.0.12",
     "gql.tada": "~1.8.10",
-    "graphql": "~16.10.0",
     "next": "~15",
     "react": "~19"
   },
@@ -43,13 +49,9 @@
     },
     "@0no-co/graphql.web": {
       "optional": false
-    },
-    "graphql": {
-      "optional": false
     }
   },
   "devDependencies": {
-    "@gql.tada/cli-utils": "^1.6.3",
     "@types/node": "^20.17.6",
     "@types/react": "^19.0.1",
     "tsx": "^4.19.2",

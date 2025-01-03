@@ -1,3 +1,4 @@
+import rawBuildConfig from '@bigcommerce/catalyst-core/build-config/build-config.json';
 import { mongooseAdapter } from '@payloadcms/db-mongodb';
 import { lexicalEditor } from '@payloadcms/richtext-lexical';
 import path from 'node:path';
@@ -5,9 +6,10 @@ import { dirname } from 'path';
 import { Config } from 'payload';
 import sharp from 'sharp';
 import { fileURLToPath } from 'url';
-import rawBuildConfig from '@bigcommerce/catalyst-core/build-config/build-config.json';
-import Page from "./collections/page";
-import {SlideImage} from "@thebigrick/catalyst-payloadcms/collections/slide-image";
+
+import { SlideImage } from '@thebigrick/catalyst-payloadcms/collections/slide-image';
+
+import Page from './collections/page';
 
 /*
 If you need to extend the configuration, please use:
@@ -72,8 +74,6 @@ const config: Config = {
   typescript: {
     outputFile: path.resolve(selfPath, './generated-types.ts'),
   },
-
-
 };
 
 export default config;

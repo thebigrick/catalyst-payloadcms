@@ -1,9 +1,13 @@
-import {functionPlugin} from '@thebigrick/catalyst-pluginizr';
-import {NextFetchEvent, NextRequest, NextResponse} from 'next/server';
-import {withRoutes} from "@bigcommerce/catalyst-core/middlewares/with-routes";
-import searchDocument from "@thebigrick/catalyst-payloadcms/service/search-document";
-import {Page} from "@thebigrick/catalyst-payloadcms/generated-types";
+import { withRoutes } from '@bigcommerce/catalyst-core/middlewares/with-routes';
+import { functionPlugin } from '@thebigrick/catalyst-pluginizr';
+import { NextFetchEvent, NextRequest, NextResponse } from 'next/server';
 
+import getPageIdBySlug from '@thebigrick/catalyst-payloadcms/service/get-page-id-by-slug';
+
+/**
+ * Fetch the page by slug and redirect to the payload page if it exists
+ * Otherwise, continue to the next middleware
+ */
 const applyPayloadRouteMiddleware = functionPlugin<typeof withRoutes>({
   name: 'exclude-payload-from-middleware',
   resourceId: '@bigcommerce/catalyst-core/middlewares/with-routes:withRoutes',
@@ -13,12 +17,16 @@ const applyPayloadRouteMiddleware = functionPlugin<typeof withRoutes>({
       const { pathname } = request.nextUrl;
       const locale = request.headers.get('x-bc-locale') ?? '';
 
-      const pathNameWithoutLocale =
-          pathname.startsWith(`/${locale}/`) ? pathname.replace(`/${locale}/`, '/') : pathname;
+      const slug =
+        (pathname.startsWith(`/${locale}/`) ? pathname.replace(`/${locale}/`, '/') : pathname)
+          .replace(/\/$/, '')
+          .replace(/^\//, '') || '/';
 
-      const page = await searchDocument<Page>('page', locale, { slug: { equals: pathNameWithoutLocale } });
-      if (page?.id) {
-        const resourceUrl = new URL(`/${locale}/payload-page/${page?.id}`, request.url);
+      const pageId = await getPageIdBySlug(slug, locale);
+
+      if (pageId) {
+        const resourceUrl = new URL(`/${locale}/payload-page/${pageId}`, request.url);
+
         return NextResponse.rewrite(resourceUrl);
       }
 
