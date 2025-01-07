@@ -1,14 +1,14 @@
 import NextImage from 'next/image';
 import React from 'react';
 
-import SlideOverlay from '@thebigrick/catalyst-payloadcms/components/blocks/slider/slide-overlay';
-import { SliderProps } from '@thebigrick/catalyst-payloadcms/components/blocks/slider/slider';
-import sliderSlots from '@thebigrick/catalyst-payloadcms/components/blocks/slider/slider-slots';
 import { Image, SliderBlock } from '@thebigrick/catalyst-payloadcms/generated-types';
 import useTvSlots from '@thebigrick/catalyst-payloadcms/hooks/use-tv-slots';
+import SlideOverlay from '@thebigrick/catalyst-payloadcms/page-components/slider/slide-overlay';
+import { Props } from '@thebigrick/catalyst-payloadcms/page-components/slider/slider';
+import sliderSlots from '@thebigrick/catalyst-payloadcms/page-components/slider/slider-slots';
 
 export interface SlideProps {
-  slide: SliderProps['block']['slides'][0];
+  slide: Props['block']['slides'][0];
   slider: SliderBlock;
 }
 

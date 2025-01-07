@@ -1,9 +1,12 @@
 import type { Block } from 'payload';
 
-export const ImageBlock: Block = {
+import BoxBlock from '@thebigrick/catalyst-payloadcms/collections/box';
+
+const Schema: Block = {
   slug: 'image',
   interfaceName: 'ImageBlock',
   fields: [
+    BoxBlock,
     {
       name: 'image',
       type: 'upload',
@@ -13,3 +16,5 @@ export const ImageBlock: Block = {
     },
   ],
 };
+
+export default Schema;

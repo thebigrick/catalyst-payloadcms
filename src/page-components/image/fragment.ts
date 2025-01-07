@@ -1,7 +1,9 @@
+import BoxBlockInclude from '@thebigrick/catalyst-payloadcms/gql/query/box-block-include';
 import { payloadGraphql } from '@thebigrick/catalyst-payloadcms/service/payload-graphql';
 
-const ImageBlockFragment = payloadGraphql(`
+const Fragment = payloadGraphql(`
   fragment ImageBlock on ImageBlock {
+      ${BoxBlockInclude}
       image {
         url
         alt
@@ -9,4 +11,4 @@ const ImageBlockFragment = payloadGraphql(`
   }
 `);
 
-export default ImageBlockFragment;
+export default Fragment;

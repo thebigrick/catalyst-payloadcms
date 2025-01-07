@@ -1,9 +1,9 @@
-import containerPageBlockFragments from '@thebigrick/catalyst-payloadcms/gql/query/fragments/container-page-block-fragments';
-import pageBlockFragments from '@thebigrick/catalyst-payloadcms/gql/query/fragments/page-block-fragments';
+import componentFragments from '@thebigrick/catalyst-payloadcms/gql/query/fragments/component-fragments';
+import containerFragments from '@thebigrick/catalyst-payloadcms/gql/query/fragments/container-fragments';
 import getFragmentsQuery from '@thebigrick/catalyst-payloadcms/service/get-fragments-query';
 import { payloadGraphql } from '@thebigrick/catalyst-payloadcms/service/payload-graphql';
 
-const fragmentData = getFragmentsQuery([...pageBlockFragments, ...containerPageBlockFragments]);
+const fragmentData = getFragmentsQuery([...componentFragments, ...containerFragments]);
 
 const GetPageByIdQuery = payloadGraphql(
   `

@@ -1,9 +1,19 @@
-import { Page } from '@thebigrick/catalyst-payloadcms/generated-types';
+import { DocumentNode } from '@0no-co/graphql.web';
+import { Block } from 'payload';
+
+import { BoxBlock, Page } from '@thebigrick/catalyst-payloadcms/generated-types';
 
 export interface BlockComponentProps {
   block: NonNullable<Page['blocks']>[number] & {
     __typename?: string;
   };
+}
+
+export interface BoxComponentProps extends BlockComponentProps {
+  block: BlockComponentProps['block'] & {
+    box?: BoxBlock;
+  };
+  className?: string;
 }
 
 export type GraphQLDocsCollection<TDoc, TCollection extends string> = Record<
@@ -12,3 +22,8 @@ export type GraphQLDocsCollection<TDoc, TCollection extends string> = Record<
 >;
 
 export type GraphQLDoc<TDoc, TResource extends string> = Record<TResource, TDoc>;
+
+export interface PageComponentDefinition {
+  schema: Block;
+  fragment: DocumentNode;
+}

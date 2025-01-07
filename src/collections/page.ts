@@ -1,7 +1,7 @@
 import type { CollectionConfig, Field } from 'payload';
 
-import BlocksList from '@thebigrick/catalyst-payloadcms/collections/blocks/blocks-list';
-import ContainerBlocksList from '@thebigrick/catalyst-payloadcms/collections/blocks/container-blocks-list';
+import componentSchemas from '@thebigrick/catalyst-payloadcms/collections/component-schemas';
+import containerSchemas from '@thebigrick/catalyst-payloadcms/collections/container-schemas';
 import getCatalystUrl from '@thebigrick/catalyst-payloadcms/service/get-catalyst-url';
 import isFrontendRequest from '@thebigrick/catalyst-payloadcms/service/is-frontend-request';
 
@@ -25,7 +25,7 @@ export const SEOField: Field = {
 export const BlocksField: Field = {
   type: 'blocks',
   name: 'blocks',
-  blocks: [...BlocksList, ...ContainerBlocksList],
+  blocks: [...componentSchemas, ...containerSchemas],
 };
 
 const Page: CollectionConfig = {

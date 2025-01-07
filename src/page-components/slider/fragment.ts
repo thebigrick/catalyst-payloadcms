@@ -1,7 +1,9 @@
+import BoxBlockInclude from '@thebigrick/catalyst-payloadcms/gql/query/box-block-include';
 import { payloadGraphql } from '@thebigrick/catalyst-payloadcms/service/payload-graphql';
 
-const SliderBlockFragment = payloadGraphql(`
+const Fragment = payloadGraphql(`
   fragment SliderBlock on SliderBlock {
+    ${BoxBlockInclude}
     slidesPerView
     autoplayDelay
     spaceBetween
@@ -21,4 +23,4 @@ const SliderBlockFragment = payloadGraphql(`
   }
 `);
 
-export default SliderBlockFragment;
+export default Fragment;

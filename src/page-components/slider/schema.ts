@@ -1,9 +1,12 @@
 import type { Block } from 'payload';
 
-export const SliderBlock: Block = {
+import BoxBlock from '@thebigrick/catalyst-payloadcms/collections/box';
+
+const Schema: Block = {
   slug: 'slider',
   interfaceName: 'SliderBlock',
   fields: [
+    BoxBlock,
     {
       name: 'autoplay',
       type: 'checkbox',
@@ -80,3 +83,5 @@ export const SliderBlock: Block = {
     },
   ],
 };
+
+export default Schema;

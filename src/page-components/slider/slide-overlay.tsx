@@ -2,9 +2,9 @@
 import Link from 'next/link';
 import React from 'react';
 
-import { SlideProps } from '@thebigrick/catalyst-payloadcms/components/blocks/slider/slide';
-import sliderSlots from '@thebigrick/catalyst-payloadcms/components/blocks/slider/slider-slots';
 import useTvSlots from '@thebigrick/catalyst-payloadcms/hooks/use-tv-slots';
+import { SlideProps } from '@thebigrick/catalyst-payloadcms/page-components/slider/slide';
+import sliderSlots from '@thebigrick/catalyst-payloadcms/page-components/slider/slider-slots';
 
 const SlideOverlay: React.FC<SlideProps> = (props) => {
   const { slide } = props;
