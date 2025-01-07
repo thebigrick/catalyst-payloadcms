@@ -7,24 +7,26 @@ import { fileURLToPath } from 'url';
  * Copy payload pages to the core app
  * @returns {void}
  */
-const copyPayloadPages = () => {
+const copyPayloadPages = (): void => {
   const selfPath = fileURLToPath(dirname(import.meta.url));
   const catalystRoot = path.resolve(selfPath, '../../../../');
 
-  const absoluteSource = path.resolve(path.join(selfPath, '../files/(payload)'));
-  const absoluteTarget = path.resolve(path.join(catalystRoot, 'core/app/(payload)'));
+  const directories = {
+    [path.resolve(path.join(selfPath, '../files/(payload)'))]: path.resolve(
+      path.join(catalystRoot, 'core/app/(payload)'),
+    ),
+    [path.resolve(path.join(selfPath, '../files/[locale]/(default)/(payload)'))]: path.resolve(
+      path.join(catalystRoot, 'core/app/[locale]/(default)/(payload)'),
+    ),
+  };
 
-  if (fs.existsSync(absoluteTarget)) {
-    return;
+  // eslint-disable-next-line no-restricted-syntax
+  for (const [source, target] of Object.entries(directories)) {
+    if (!fs.existsSync(target)) {
+      fs.mkdirSync(target, { recursive: true });
+      fs.cpSync(source, target, { recursive: true });
+    }
   }
-
-  const targetDir = path.dirname(absoluteTarget);
-
-  if (!fs.existsSync(targetDir)) {
-    fs.mkdirSync(targetDir, { recursive: true });
-  }
-
-  fs.cpSync(absoluteSource, absoluteTarget, { recursive: true });
 };
 
 export default copyPayloadPages;

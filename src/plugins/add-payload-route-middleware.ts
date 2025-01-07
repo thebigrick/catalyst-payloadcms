@@ -1,0 +1,38 @@
+import { withRoutes } from '@bigcommerce/catalyst-core/middlewares/with-routes';
+import { functionPlugin } from '@thebigrick/catalyst-pluginizr';
+import { NextFetchEvent, NextRequest, NextResponse } from 'next/server';
+
+import getPageIdBySlug from '@thebigrick/catalyst-payloadcms/service/get-page-id-by-slug';
+
+/**
+ * Fetch the page by slug and redirect to the payload page if it exists
+ * Otherwise, continue to the next middleware
+ */
+const applyPayloadRouteMiddleware = functionPlugin<typeof withRoutes>({
+  name: 'exclude-payload-from-middleware',
+  resourceId: '@bigcommerce/catalyst-core/middlewares/with-routes:withRoutes',
+
+  wrap: (source, ...args) => {
+    return async (request: NextRequest, event: NextFetchEvent) => {
+      const { pathname } = request.nextUrl;
+      const locale = request.headers.get('x-bc-locale') ?? '';
+
+      const slug =
+        (pathname.startsWith(`/${locale}/`) ? pathname.replace(`/${locale}/`, '/') : pathname)
+          .replace(/\/$/, '')
+          .replace(/^\//, '') || '/';
+
+      const pageId = await getPageIdBySlug(slug, locale);
+
+      if (pageId) {
+        const resourceUrl = new URL(`/${locale}/payload-page/${pageId}`, request.url);
+
+        return NextResponse.rewrite(resourceUrl);
+      }
+
+      return source(...args)(request, event);
+    };
+  },
+});
+
+export default applyPayloadRouteMiddleware;

@@ -9,10 +9,10 @@ A plugin to integrate PayloadCMS with BigCommerce Catalyst framework using the P
 - [Prerequisites](#prerequisites)
 - [Installation](#installation)
 - [Usage](#usage)
-    - [Environment Variables](#environment-variables)
-    - [Extending PayloadCMS Configuration](#extending-payloadcms-configuration)
+  - [Environment Variables](#environment-variables)
+  - [Extending Registries](#extending-registries)
 - [Contributing](#contributing)
-    - [Development Guidelines](#development-guidelines)
+  - [Development Guidelines](#development-guidelines)
 - [License](#license)
 - [Support](#support)
 
@@ -43,64 +43,31 @@ DATABASE_URI=mongodb://127.0.0.1/payload-playground # Configure accordingly
 PAYLOAD_SECRET=mystrongsecret # Please modify
 ```
 
-### Start the Catalyst server and access the PayloadCMS admin panel
+### Extending Registries
 
-Start the Catalyst server:
+The plugin can be extended with additional components using Catalyst Pluginizr (https://github.com/thebigrick/catalyst-pluginizr) through three main registry files:
 
-```bash
-pnpm run dev
-```
+- `src/registry/components-registry.ts`: Used for simple components
+- `src/registry/containers-registry.ts`: Used for layout components or components that can contain simple components
+- `src/registry/fc-registry.ts`: Maps PayloadCMS components to React components based on their "interfaceName"
 
-Access the PayloadCMS admin panel by navigating to `http://localhost:3000/payload/admin`.
-
-### Extending PayloadCMS Configuration
-
-The plugin provides a base PayloadCMS configuration that can be extended through the Pluginizr system.
-
-To add collections or modify the PayloadCMS configuration, create a local plugin using [Pluginizr](https://github.com/thebigrick/catalyst-pluginizr) and register your modifications as shown below:
+Example of extending a registry:
 
 ```typescript
-// plugins/my-plugin/src/plugins/add-my-collection.ts
+//...
 
-import { valuePlugin } from "@thebigrick/catalyst-pluginizr";
-import { Config } from "payload";
-import { Media } from "./collections/Media";
+export default valuePlugin<typeof componentsRegistry>({
+  name: 'add-my-component',
+  resourceId: '@thebigrick/catalyst-payloadcms/registry/components-registry',
 
-export default valuePlugin<Config>({
-    name: "PayloadCMSConfig",
-    resourceId: "@thebigrick/catalyst-payloadcms/payload.raw.config",
-    wrap: (config) => ({
-        ...config,
-        collections: [
-            ...config.collections,
-            Media
-        ]
-    })
+  wrap: (source) => ({
+    ...source,
+    myAdditionalPlugin
+  }),
 });
 ```
 
-Example collection configuration:
-
-```typescript
-// plugins/my-plugin/src/collections/Media.ts
-
-import type { CollectionConfig } from 'payload'
-
-export const Media: CollectionConfig = {
-  slug: 'media',
-  access: {
-    read: () => true,
-  },
-  fields: [
-    {
-      name: 'alt',
-      type: 'text',
-      required: true,
-    },
-  ],
-  upload: true,
-}
-```
+For more details on creating plugins, refer to the [Pluginizr documentation](https://github.com/thebigrick/catalyst-pluginizr).
 
 ## Contributing
 

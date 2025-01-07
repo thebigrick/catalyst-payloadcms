@@ -1,6 +1,8 @@
 import { GraphQLError, print } from '@0no-co/graphql.web';
 import { TadaDocumentNode } from 'gql.tada';
 
+import getGqlEndpoint from '@thebigrick/catalyst-payloadcms/service/get-gql-endpoint';
+
 export interface FetcherRequestInit extends Omit<RequestInit, 'body'> {
   headers?: Record<string, string>;
 }
@@ -31,20 +33,32 @@ export interface GraphQLResponse<T> {
   errors?: GraphQLError[];
 }
 
-const payloadClient = async <TResult, TVariables>(config: {
+/**
+ * A client for making GraphQL requests to the Payload CMS API
+ * @template TResult - The type of the result
+ * @param {object} config
+ * @param {TadaDocumentNode} config.document - The GraphQL document
+ * @param {object} [config.variables] - The variables for the query
+ * @param {FetcherRequestInit} [config.fetchOptions] - The fetch options
+ * @returns {Promise<TResult>}
+ */
+const payloadClient = async <TResult>(config: {
   document: TadaDocumentNode;
-  variables?: TVariables;
+  variables?: Record<string, unknown>;
   fetchOptions?: FetcherRequestInit;
 }): Promise<TResult> => {
-  const { document, variables, fetchOptions = {} } = config;
+  if (!process.env.PAYLOAD_CMS_FRONTEND_TOKEN) {
+    throw new Error('Missing PAYLOAD_CMS_FRONTEND_TOKEN environment variable');
+  }
 
-  const graphqlUrl = 'http://localhost:3000/payload/api/graphql';
+  const { document, variables, fetchOptions = {} } = config;
 
   const query = normalizeQuery(document);
 
-  const response = await fetch(graphqlUrl, {
+  const response = await fetch(getGqlEndpoint(), {
     method: 'POST',
     headers: {
+      'X-Payload-CMS-Auth': process.env.PAYLOAD_CMS_FRONTEND_TOKEN,
       'Content-Type': 'application/json',
     },
 

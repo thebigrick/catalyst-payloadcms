@@ -13,33 +13,34 @@ const configWrapper = (nextConfig) => {
     images: {
       ...nextConfig.images,
       remotePatterns: [
-        ...nextConfig.images?.remotePatterns || [],
+        ...(nextConfig.images?.remotePatterns || []),
         {
           protocol: 'http', // TODO: Update this to read from env
           hostname: 'localhost',
           port: '3000',
-        }
-      ]
+        },
+      ],
     },
     async headers() {
       const headers = await nextConfig.headers();
+
       return [
-        ...headers || {},
+        ...(headers || {}),
         {
           source: '/(.*)',
           headers: [
             {
               key: 'X-Frame-Options',
-              value: 'SAMEORIGIN'
+              value: 'SAMEORIGIN',
             },
             {
               key: 'Content-Security-Policy',
-              value: "frame-ancestors 'self' http://localhost:3000;" // TODO: Update this to read from env
-            }
-          ]
-        }
-      ]
-    }
+              value: "frame-ancestors 'self' http://localhost:3000;", // TODO: Update this to read from env
+            },
+          ],
+        },
+      ];
+    },
   });
 };
 
