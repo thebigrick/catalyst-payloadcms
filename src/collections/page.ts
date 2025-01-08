@@ -1,9 +1,19 @@
-import type { CollectionConfig, Field } from 'payload';
+/* eslint-disable no-underscore-dangle */
+
+import {
+  CollectionAfterChangeHook,
+  CollectionAfterDeleteHook,
+  CollectionConfig,
+  Field,
+} from 'payload';
 
 import componentSchemas from '@thebigrick/catalyst-payloadcms/collections/component-schemas';
 import containerSchemas from '@thebigrick/catalyst-payloadcms/collections/container-schemas';
 import getCatalystUrl from '@thebigrick/catalyst-payloadcms/service/get-catalyst-url';
+import invalidatePage from '@thebigrick/catalyst-payloadcms/service/invalidate-page';
 import isFrontendRequest from '@thebigrick/catalyst-payloadcms/service/is-frontend-request';
+
+import { Page as PageType } from '../generated-types';
 
 export const SEOField: Field = {
   type: 'group',
@@ -29,15 +39,40 @@ export const BlocksField: Field = {
   blocks: [...componentSchemas, ...containerSchemas],
 };
 
+export const invalidateCacheOnStatusChange: CollectionAfterChangeHook = async (args) => {
+  // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
+  const doc = args.doc as PageType;
+  // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
+  const prevDoc = args.previousDoc as PageType;
+
+  if (doc._status !== prevDoc._status) {
+    await invalidatePage(doc.slug);
+    await invalidatePage(prevDoc.slug);
+  }
+};
+
+export const invalidateCacheOnDelete: CollectionAfterDeleteHook = async (args) => {
+  // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
+  const doc = args.doc as PageType;
+
+  if (doc._status === 'published') {
+    await invalidatePage(doc.slug);
+  }
+};
+
 const Page: CollectionConfig = {
   slug: 'page',
   access: {
     read: isFrontendRequest,
   },
+  hooks: {
+    afterChange: [invalidateCacheOnStatusChange],
+    afterDelete: [invalidateCacheOnDelete],
+  },
   versions: {
     drafts: {
       autosave: {
-        interval: 1500,
+        interval: 500,
       },
     },
     maxPerDoc: 10,

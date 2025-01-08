@@ -5,6 +5,7 @@ const SearchPageIdQuery = payloadGraphql(`
       Pages(where:{slug:{equals:$slug}}, locale:$locale, fallbackLocale:en) {
         docs {
           id
+          _status
         }
       }
     }
