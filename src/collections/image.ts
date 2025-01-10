@@ -1,11 +1,9 @@
 import type { CollectionConfig } from 'payload';
 
-import isFrontendRequest from '@thebigrick/catalyst-payloadcms/service/is-frontend-request';
-
 export const Image: CollectionConfig = {
   slug: 'image',
   access: {
-    read: isFrontendRequest,
+    read: () => true,
   },
   upload: {
     staticDir: 'payloadcms/images',
