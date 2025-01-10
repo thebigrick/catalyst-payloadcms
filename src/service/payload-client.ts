@@ -70,7 +70,7 @@ const payloadClient = async <TResult>(config: {
   });
 
   if (!response.ok) {
-    throw new Error(`HTTP Error: ${response.status} - ${response.statusText}`);
+    throw new Error(`HTTP Error(${getGqlEndpoint()}): ${response.status} - ${response.statusText}`);
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
