@@ -27,7 +27,7 @@ const configWrapper = (nextConfig) => {
     images: {
       ...nextConfig.images,
       domains: [...(nextConfig.images?.domains || []), parsedUrl.hostname],
-      remotePatterns: [...(nextConfig.images?.remotePatterns || []), parsedUrl],
+      remotePatterns: [...(nextConfig.images?.remotePatterns || []), remotePattern],
     },
     async headers() {
       const headers = await nextConfig.headers();
