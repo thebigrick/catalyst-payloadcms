@@ -2,6 +2,7 @@ import { Page } from '@thebigrick/catalyst-payloadcms/generated-types';
 import GetPageByIdQuery from '@thebigrick/catalyst-payloadcms/gql/query/get-page-by-id-query';
 import payloadClient from '@thebigrick/catalyst-payloadcms/service/payload-client';
 import { GraphQLDoc } from '@thebigrick/catalyst-payloadcms/types';
+import getPageCacheTag from "@thebigrick/catalyst-payloadcms/service/get-page-cache-tag";
 
 export interface GetPageOptions {
   draft?: boolean;
@@ -22,6 +23,12 @@ const getPageById = async (
   const res = await payloadClient<GraphQLDoc<Page, 'Page'>>({
     document: GetPageByIdQuery,
     variables: { id, locale, draft: !!options.draft },
+    fetchOptions: {
+      next: {
+        tags: ['payloadcms-pages', getPageCacheTag(id.toString())],
+        revalidate: 86400,
+      },
+    },
   });
 
   return res.Page;
