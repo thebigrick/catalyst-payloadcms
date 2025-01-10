@@ -15,7 +15,7 @@ export interface GetPageOptions {
  * @returns {Promise<string>} The ID of the page
  */
 const getPageById = async (
-  id: string,
+  id: number,
   locale: string,
   options: GetPageOptions = {},
 ): Promise<Page> => {

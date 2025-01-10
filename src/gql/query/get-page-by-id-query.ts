@@ -7,7 +7,7 @@ const fragmentData = getFragmentsQuery([...componentFragments, ...containerFragm
 
 const GetPageByIdQuery = payloadGraphql(
   `
-query PageQuery($id: String!, $locale:LocaleInputType!, $draft:Boolean) {
+query PageQuery($id: Int!, $locale:LocaleInputType!, $draft:Boolean) {
   Page(id:$id, locale:$locale, fallbackLocale:en, draft:$draft) {
     id
     title

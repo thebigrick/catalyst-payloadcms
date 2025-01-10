@@ -8,15 +8,18 @@ export interface PayloadPageProps {
 }
 
 export default async function Home({ params }: PayloadPageProps) {
-  const { id, locale } = await params;
-
+  const awaitedParams = await params;
+  const locale = awaitedParams.locale;
+  const id = parseInt(awaitedParams.id, 10);
   const { blocks } = await getPageById(id, locale);
 
   return <ChildrenBlocks blocks={blocks} />;
 }
 
 export const generateMetadata = async ({ params }: PayloadPageProps) => {
-  const { id, locale } = await params;
+  const awaitedParams = await params;
+  const locale = awaitedParams.locale;
+  const id = parseInt(awaitedParams.id, 10);
   const page = await getPageById(id, locale);
 
   return {
