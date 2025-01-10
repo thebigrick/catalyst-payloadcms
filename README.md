@@ -45,6 +45,14 @@ PAYLOAD_SECRET=my-super-complex-secret # Please modify
 PAYLOAD_CMS_FRONTEND_TOKEN=mystrongsecret # Please modify
 ```
 
+For production, you can also add the following environment variables:
+
+```bash
+NEXT_PUBLIC_URL=https://your-catalyst-project.vercel.app # Modify accordingly to your project URL
+```
+if `NEXT_PUBLIC_URL` is not set, the plugin will use `http://localhost:3000` as the default URL.
+
+
 ### Extending Registries
 
 The plugin can be extended with additional components using Catalyst Pluginizr (https://github.com/thebigrick/catalyst-pluginizr) through three main registry files:

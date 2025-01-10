@@ -4,6 +4,8 @@ const { withPayload } = require('@payloadcms/next/withPayload');
 const configWrapper = (nextConfig) => {
   console.log('Using Payload CMS integration by TheBigRick <riccardo.tempesta@bigcommerce.com>');
 
+  const parsedUrl = new URL(process.env.NEXT_PUBLIC_URL || 'http://localhost:3000');
+
   return withPayload({
     ...nextConfig,
     experimental: {
@@ -15,9 +17,9 @@ const configWrapper = (nextConfig) => {
       remotePatterns: [
         ...(nextConfig.images?.remotePatterns || []),
         {
-          protocol: 'http', // TODO: Update this to read from env
-          hostname: 'localhost',
-          port: '3000',
+          protocol: parsedUrl.protocol.replace(':', ''),
+          hostname: parsedUrl.hostname,
+          port: parsedUrl.port,
         },
       ],
     },
