@@ -21,7 +21,8 @@ A plugin to integrate PayloadCMS with BigCommerce Catalyst framework using the P
 This plugin requires:
 - A working [Catalyst](https://www.catalyst.dev/) (https://www.catalyst.dev/) project
 - [Pluginizr](https://github.com/thebigrick/catalyst-pluginizr) (https://github.com/thebigrick/catalyst-pluginizr) to be installed in your Catalyst project
-- A MongoDB database (for your convenience, you can use [MongoDB Atlas](https://www.mongodb.com/cloud/atlas)) or a local MongoDB instance using the docker-compose file provided in the devops directory
+- A Postgres database for storing PayloadCMS data
+- (Optional) A Vercel Blob storage for storing media files on Vercel
 
 ## Installation
 
@@ -39,8 +40,9 @@ git submodule add https://github.com/thebigrick/catalyst-payloadcms.git plugins/
 Modify your `.env.local` file and add the following required environment variables:
 
 ```bash
-DATABASE_URI=mongodb://127.0.0.1/payload-playground # Configure accordingly
-PAYLOAD_SECRET=mystrongsecret # Please modify
+POSTGRES_URL=... # Configure accordingly
+PAYLOAD_SECRET=my-super-complex-secret # Please modify
+PAYLOAD_CMS_FRONTEND_TOKEN=mystrongsecret # Please modify
 ```
 
 ### Extending Registries
