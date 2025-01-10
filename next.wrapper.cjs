@@ -4,7 +4,8 @@ const { withPayload } = require('@payloadcms/next/withPayload');
 const configWrapper = (nextConfig) => {
   console.log('Using Payload CMS integration by TheBigRick <riccardo.tempesta@bigcommerce.com>');
 
-  const parsedUrl = new URL(process.env.NEXT_PUBLIC_URL || 'http://localhost:3000');
+  const publicUrl = process.env.NEXT_PUBLIC_URL || 'http://localhost:3000';
+  const parsedUrl = new URL(publicUrl);
 
   return withPayload({
     ...nextConfig,
@@ -37,7 +38,7 @@ const configWrapper = (nextConfig) => {
             },
             {
               key: 'Content-Security-Policy',
-              value: "frame-ancestors 'self' http://localhost:3000;", // TODO: Update this to read from env
+              value: `frame-ancestors 'self' ${publicUrl};`,
             },
           ],
         },
