@@ -5,7 +5,7 @@ import { NextFetchEvent, NextRequest, NextResponse } from 'next/server';
 /**
  * Exclude the payload admin from middleware to avoid using the "withIntl" middleware
  */
-const excludePayloadAdminFromMiddleware = valuePlugin<typeof middleware>({
+const excludePayloadFromMiddleware = valuePlugin<typeof middleware>({
   name: 'exclude-payload-from-middleware',
   resourceId: '@bigcommerce/catalyst-core/middleware:middleware',
 
@@ -20,4 +20,4 @@ const excludePayloadAdminFromMiddleware = valuePlugin<typeof middleware>({
   },
 });
 
-export default excludePayloadAdminFromMiddleware;
+export default excludePayloadFromMiddleware;

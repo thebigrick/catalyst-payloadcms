@@ -4,6 +4,18 @@ import { NextFetchEvent, NextRequest, NextResponse } from 'next/server';
 
 import getPageIdBySlug from '@thebigrick/catalyst-payloadcms/service/get-page-id-by-slug';
 
+const getSlugFromPathname = (pathname: string, locale: string) => {
+  if (pathname === '/' || pathname === `/${locale}` || pathname === `/${locale}/`) {
+    return '/';
+  }
+
+  if (pathname.startsWith(`/${locale}/`)) {
+    return pathname.replace(`/${locale}/`, '').replace(/^\//, '');
+  }
+
+  return pathname.replace(/\/$/, '').replace(/^\//, '');
+};
+
 /**
  * Fetch the page by slug and redirect to the payload page if it exists
  * Otherwise, continue to the next middleware
@@ -17,10 +29,7 @@ const applyPayloadRouteMiddleware = functionPlugin<typeof withRoutes>({
       const { pathname } = request.nextUrl;
       const locale = request.headers.get('x-bc-locale') ?? '';
 
-      const slug =
-        (pathname.startsWith(`/${locale}/`) ? pathname.replace(`/${locale}/`, '/') : pathname)
-          .replace(/\/$/, '')
-          .replace(/^\//, '') || '/';
+      const slug = getSlugFromPathname(pathname, locale);
 
       const pageId = await getPageIdBySlug(slug, locale);
 
