@@ -7,6 +7,17 @@ const configWrapper = (nextConfig) => {
   const publicUrl = process.env.NEXT_PUBLIC_URL || 'http://localhost:3000';
   const parsedUrl = new URL(publicUrl);
 
+  const remotePattern = {
+    protocol: parsedUrl.protocol.replace(':', ''),
+    hostname: parsedUrl.hostname,
+  };
+
+  if (parsedUrl.port && parsedUrl.port !== '80' && parsedUrl.port !== '443') {
+    remotePattern.port = parsedUrl.port;
+  }
+
+  console.log('Using images remote pattern: ', remotePattern);
+
   return withPayload({
     ...nextConfig,
     experimental: {
@@ -15,14 +26,8 @@ const configWrapper = (nextConfig) => {
     },
     images: {
       ...nextConfig.images,
-      remotePatterns: [
-        ...(nextConfig.images?.remotePatterns || []),
-        {
-          protocol: parsedUrl.protocol.replace(':', ''),
-          hostname: parsedUrl.hostname,
-          port: parsedUrl.port,
-        },
-      ],
+      domains: [...(nextConfig.images?.domains || []), parsedUrl.hostname],
+      remotePatterns: [...(nextConfig.images?.remotePatterns || []), parsedUrl],
     },
     async headers() {
       const headers = await nextConfig.headers();
