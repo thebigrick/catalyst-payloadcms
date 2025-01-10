@@ -39,6 +39,7 @@ const Slider: React.FC<Props> = (props) => {
         modules={[Parallax, Autoplay, Navigation, Pagination]}
         navigation={block.showNavigation}
         pagination={block.showPagination}
+        parallax={true}
         slidesPerView={block.slidesPerView}
         spaceBetween={block.spaceBetween}
       >
