@@ -21,6 +21,7 @@
     "@payloadcms/db-postgres": "^3.16.0",
     "@payloadcms/db-mongodb": "^3.16.0",
     "@payloadcms/db-sqlite": "^3.16.0",
+    "@payloadcms/db-vercel-postgres": "^3.16.0",
     "@payloadcms/storage-vercel-blob": "^3.16.0",
     "@payloadcms/live-preview-react": "^3.16.0",
     "@payloadcms/next": "^3.16.0",

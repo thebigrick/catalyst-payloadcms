@@ -11,6 +11,7 @@ A plugin to integrate PayloadCMS with BigCommerce Catalyst framework using the P
   - [Environment Variables](#environment-variables)
     - [Database Adapters](#database-adapters)
       - [Postgres Database](#with-postgres-database-adapter)
+      - [Vercel Postgres Database](#with-vercel-postgres-database-adapter)
       - [MongoDB Database](#with-mongodb-database-adapter)
       - [SQLite Database](#with-sqlite-database-adapter)
     - [Storage Adapters](#storage-adapters)
@@ -59,6 +60,14 @@ if `NEXT_PUBLIC_URL` is not set, the plugin will use `http://localhost:3000` as 
 ##### With Postgres database adapter
 
 ```bash
+PAYLOADCMS_DB_ADAPTER=postgres
+POSTGRES_URL=postgres://user:password@localhost:5432/database # Modify accordingly to your Postgres database URL
+```
+
+##### With Vercel Postgres database adapter
+
+```bash
+PAYLOADCMS_DB_ADAPTER=vercel-postgres
 POSTGRES_URL=postgres://user:password@localhost:5432/database # Modify accordingly to your Postgres database URL
 ```
 
@@ -67,12 +76,14 @@ POSTGRES_URL=postgres://user:password@localhost:5432/database # Modify according
 ##### With MongoDB database adapter
 
 ```bash
+PAYLOADCMS_DB_ADAPTER=mongodb
 MONGODB_URI=mongodb://localhost:27017/database # Modify accordingly to your MongoDB database URL
 ```
 
 ##### With Sqlite database adapter
 
 ```bash
+PAYLOADCMS_DB_ADAPTER=sqlite
 SQLITE_URL=sqlite://path/to/database.sqlite # Modify accordingly to your SQLite database URL
 SQLITE_AUTH_TOKEN=my-super-complicated-token # Modify accordingly to your SQLite auth token
 ```
