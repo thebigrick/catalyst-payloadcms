@@ -10,7 +10,7 @@ import { GraphQLDocsCollection } from '@thebigrick/catalyst-payloadcms/types';
  * @param {string} locale
  * @returns {Promise<string>} The ID of the page
  */
-const getPageIdBySlug = async (slug: string, locale: string): Promise<number | null> => {
+const getPageIdBySlug = async (slug: string, locale: string): Promise<number | string | null> => {
   const res = await payloadClient<GraphQLDocsCollection<Page, 'Pages'>>({
     document: SearchPageIdQuery,
     variables: { slug, locale },

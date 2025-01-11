@@ -1,5 +1,6 @@
 import rawBuildConfig from '@bigcommerce/catalyst-core/build-config/build-config.json';
 import { postgresAdapter } from '@payloadcms/db-postgres';
+import { mongooseAdapter } from '@payloadcms/db-mongodb';
 import { lexicalEditor } from '@payloadcms/richtext-lexical';
 import { vercelBlobStorage } from '@payloadcms/storage-vercel-blob';
 import path from 'node:path';
@@ -11,6 +12,8 @@ import { fileURLToPath } from 'url';
 import { Image } from '@thebigrick/catalyst-payloadcms/collections/image';
 
 import Page from './collections/page';
+import getDbConnection from "@thebigrick/catalyst-payloadcms/service/get-db-connection";
+import getPayloadcmsPlugins from "@thebigrick/catalyst-payloadcms/service/get-payloadcms-plugins";
 
 /*
 If you need to extend the configuration, please use:
@@ -36,19 +39,6 @@ const locales = rawBuildConfig.locales.map((locale) => locale.code);
 
 const selfPath = fileURLToPath(dirname(import.meta.url));
 
-export const vercelBlobStorageCollections = {
-  [Image.slug]: true,
-};
-
-const blobPlugins = process.env.BLOB_READ_WRITE_TOKEN
-  ? [
-      vercelBlobStorage({
-        collections: vercelBlobStorageCollections,
-        token: process.env.BLOB_READ_WRITE_TOKEN || '',
-      }),
-    ]
-  : [];
-
 const config: Config = {
   editor: lexicalEditor(),
 
@@ -56,15 +46,11 @@ const config: Config = {
 
   secret: process.env.PAYLOAD_SECRET || '',
 
-  db: postgresAdapter({
-    pool: {
-      connectionString: process.env.POSTGRES_URL,
-    },
-  }),
+  db: getDbConnection(),
 
   sharp,
 
-  plugins: blobPlugins,
+  plugins: getPayloadcmsPlugins(),
 
   admin: {
     importMap: {

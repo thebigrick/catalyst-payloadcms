@@ -46,9 +46,8 @@ export const invalidateCacheOnStatusChange: CollectionAfterChangeHook = async (a
   const prevDoc = args.previousDoc as PageType;
 
   if (doc._status !== prevDoc._status) {
-    await invalidatePage(doc.slug);
-    await invalidatePage(doc.id.toString());
-    await invalidatePage(prevDoc.slug);
+    await invalidatePage(doc);
+    await invalidatePage(prevDoc);
   }
 };
 
@@ -57,8 +56,7 @@ export const invalidateCacheOnDelete: CollectionAfterDeleteHook = async (args) =
   const doc = args.doc as PageType;
 
   if (doc._status === 'published') {
-    await invalidatePage(doc.id.toString());
-    await invalidatePage(doc.slug);
+    await invalidatePage(doc);
   }
 };
 

@@ -1,10 +1,10 @@
 /**
  * Get the cache tag for a page
- * @param {string} slug
+ * @param {string} key
  * @return {string}
  */
-const getPageCacheTag = (slug: string): string => {
-  return `payloadcms-page:${slug}`;
+const getPageCacheTag = (key: string | number): string => {
+  return `payloadcms-page:${key}`;
 };
 
 export default getPageCacheTag;

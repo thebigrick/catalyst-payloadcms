@@ -1,33 +1,39 @@
 import { revalidatePath, revalidateTag } from 'next/cache';
 
 import config from '@payload-config';
+import { Page } from '@thebigrick/catalyst-payloadcms/generated-types';
 import getPageCacheTag from '@thebigrick/catalyst-payloadcms/service/get-page-cache-tag';
 
 /**
  * Invalidate a page in all its locales
- * @param {string} slug
+ * @param {Page} page
  * @returns {Promise<void>}
  */
-const invalidatePage = async (slug: string): Promise<void> => {
-  if (!slug) {
-    return;
-  }
+const invalidatePage = async (page: Page): Promise<void> => {
+  try {
+    if (page.slug) {
+      const payloadConfig = await config;
+      const locales = payloadConfig.localization ? payloadConfig.localization.localeCodes : ['en'];
+      const defaultPath = page.slug.startsWith('/') ? page.slug : `/${page.slug}`;
 
-  const payloadConfig = await config;
+      revalidatePath(defaultPath);
+      revalidatePath(`${defaultPath}/`);
+      revalidateTag(getPageCacheTag(page.slug));
 
-  const locales = payloadConfig.localization ? payloadConfig.localization.localeCodes : ['en'];
-  const defaultPath = slug.startsWith('/') ? slug : `/${slug}`;
+      // eslint-disable-next-line no-restricted-syntax
+      for (const locale of locales) {
+        const pagePath = `/${locale}${defaultPath}`;
 
-  revalidatePath(defaultPath);
-  revalidatePath(`${defaultPath}/`);
-  revalidateTag(getPageCacheTag(slug));
+        revalidatePath(pagePath);
+        revalidatePath(`${pagePath}/`);
+      }
+    }
 
-  // eslint-disable-next-line no-restricted-syntax
-  for (const locale of locales) {
-    const pagePath = `/${locale}${defaultPath}`;
-
-    revalidatePath(pagePath);
-    revalidatePath(`${pagePath}/`);
+    if (page.id) {
+      revalidateTag(getPageCacheTag(page.id));
+    }
+  } catch (error) {
+    console.error('Error invalidating page', error);
   }
 };
 

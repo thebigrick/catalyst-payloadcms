@@ -8,9 +8,16 @@ A plugin to integrate PayloadCMS with BigCommerce Catalyst framework using the P
 ## Table of Contents
 - [Prerequisites](#prerequisites)
 - [Installation](#installation)
-- [Usage](#usage)
   - [Environment Variables](#environment-variables)
-  - [Extending Registries](#extending-registries)
+    - [Database Adapters](#database-adapters)
+      - [Postgres Database](#with-postgres-database-adapter)
+      - [MongoDB Database](#with-mongodb-database-adapter)
+      - [SQLite Database](#with-sqlite-database-adapter)
+    - [Storage Adapters](#storage-adapters)
+      - [Vercel Blob Storage](#with-vercel-blob-storage)
+  - [PayloadCMS Admin Access](#open-the-payloadcms-admin)
+  - [Extending Components](#extending-components)
+    - [Component Registries](#component-registries)
 - [Contributing](#contributing)
   - [Development Guidelines](#development-guidelines)
 - [License](#license)
@@ -19,8 +26,8 @@ A plugin to integrate PayloadCMS with BigCommerce Catalyst framework using the P
 ## Prerequisites
 
 This plugin requires:
-- A working [Catalyst](https://www.catalyst.dev/) (https://www.catalyst.dev/) project
-- [Pluginizr](https://github.com/thebigrick/catalyst-pluginizr) (https://github.com/thebigrick/catalyst-pluginizr) to be installed in your Catalyst project
+- A working [Catalyst](https://www.catalyst.dev/) project
+- [Pluginizr](https://github.com/thebigrick/catalyst-pluginizr) to be installed in your Catalyst project
 - A Postgres database for storing PayloadCMS data
 - (Optional) A Vercel Blob storage for storing media files on Vercel
 
@@ -31,29 +38,65 @@ Clone as submodule this repository into your Catalyst project's `plugins` direct
 ```bash
 cd /path-to-catalyst
 git submodule add https://github.com/thebigrick/catalyst-payloadcms.git plugins/catalyst-payloadcms
+pnpm install
 ```
-
-## Usage
 
 ### Environment Variables
 
 Modify your `.env.local` file and add the following required environment variables:
 
 ```bash
-POSTGRES_URL=... # Configure accordingly
 PAYLOAD_SECRET=my-super-complex-secret # Please modify
 PAYLOAD_CMS_FRONTEND_TOKEN=mystrongsecret # Please modify
-```
-
-For production, you can also add the following environment variables:
-
-```bash
 NEXT_PUBLIC_URL=https://your-catalyst-project.vercel.app # Modify accordingly to your project URL
+PAYLOADCMS_DB_ADAPTER=... # Modify accordingly to your database adapter (see below)
 ```
+
 if `NEXT_PUBLIC_URL` is not set, the plugin will use `http://localhost:3000` as the default URL.
 
+#### Database Adapters
 
-### Extending Registries
+##### With Postgres database adapter
+
+```bash
+POSTGRES_URL=postgres://user:password@localhost:5432/database # Modify accordingly to your Postgres database URL
+```
+
+> Note: this variable is automatically provided by Vercel when using their Postgres/Neon database service.
+
+##### With MongoDB database adapter
+
+```bash
+MONGODB_URI=mongodb://localhost:27017/database # Modify accordingly to your MongoDB database URL
+```
+
+##### With Sqlite database adapter
+
+```bash
+SQLITE_URL=sqlite://path/to/database.sqlite # Modify accordingly to your SQLite database URL
+SQLITE_AUTH_TOKEN=my-super-complicated-token # Modify accordingly to your SQLite auth token
+```
+
+#### Storage Adapters
+
+If no storage adapter is set, the plugin will use the default local storage adapter.
+
+#### With Vercel blob storage
+
+If you want to use Vercel Blob storage for storing media files, you need to set the following environment variables:
+
+```bash
+PAYLOADCMS_STORAGE_ADAPTER=vercel-blob
+BLOB_READ_WRITE_TOKEN=... # Modify accordingly to your Vercel Blob storage read/write token
+```
+
+> Note: this variable is automatically provided by Vercel when using their Blob storage service.
+
+### Open the PayloadCMS Admin
+
+After setting up the environment variables, you can open the PayloadCMS admin by visiting `/payload/admin` on your Catalyst project.
+
+### Extending Components
 
 The plugin can be extended with additional components using Catalyst Pluginizr (https://github.com/thebigrick/catalyst-pluginizr) through three main registry files:
 
