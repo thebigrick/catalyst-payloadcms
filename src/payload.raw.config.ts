@@ -1,8 +1,5 @@
 import rawBuildConfig from '@bigcommerce/catalyst-core/build-config/build-config.json';
-import { postgresAdapter } from '@payloadcms/db-postgres';
-import { mongooseAdapter } from '@payloadcms/db-mongodb';
 import { lexicalEditor } from '@payloadcms/richtext-lexical';
-import { vercelBlobStorage } from '@payloadcms/storage-vercel-blob';
 import path from 'node:path';
 import { dirname } from 'path';
 import { Config } from 'payload';
@@ -10,10 +7,10 @@ import sharp from 'sharp';
 import { fileURLToPath } from 'url';
 
 import { Image } from '@thebigrick/catalyst-payloadcms/collections/image';
+import getDbConnection from '@thebigrick/catalyst-payloadcms/service/get-db-connection';
+import getPayloadcmsPlugins from '@thebigrick/catalyst-payloadcms/service/get-payloadcms-plugins';
 
 import Page from './collections/page';
-import getDbConnection from "@thebigrick/catalyst-payloadcms/service/get-db-connection";
-import getPayloadcmsPlugins from "@thebigrick/catalyst-payloadcms/service/get-payloadcms-plugins";
 
 /*
 If you need to extend the configuration, please use:
