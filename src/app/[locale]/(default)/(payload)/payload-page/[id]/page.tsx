@@ -7,7 +7,7 @@ export interface PayloadPageProps {
   params: Promise<{ locale: string; id: string }>;
 }
 
-export default async function Home({ params }: PayloadPageProps) {
+export default async function Page({ params }: PayloadPageProps) {
   const { locale, id } = await params;
   const { blocks } = await getPageById(id, locale);
 

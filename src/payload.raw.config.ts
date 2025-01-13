@@ -11,6 +11,7 @@ import getDbConnection from '@thebigrick/catalyst-payloadcms/service/get-db-conn
 import getPayloadcmsPlugins from '@thebigrick/catalyst-payloadcms/service/get-payloadcms-plugins';
 
 import Page from './collections/page';
+import Product from "@thebigrick/catalyst-payloadcms/collections/product";
 
 /*
 If you need to extend the configuration, please use:
@@ -39,7 +40,7 @@ const selfPath = fileURLToPath(dirname(import.meta.url));
 const config: Config = {
   editor: lexicalEditor(),
 
-  collections: [Page, Image],
+  collections: [Page, Image, Product],
 
   secret: process.env.PAYLOAD_SECRET || '',
 

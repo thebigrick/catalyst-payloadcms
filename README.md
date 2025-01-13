@@ -47,7 +47,9 @@ Modify your `.env.local` file and add the following required environment variabl
 
 ```bash
 PAYLOAD_SECRET=my-super-complex-secret # Please modify
-PAYLOAD_CMS_FRONTEND_TOKEN=mystrongsecret # Please modify
+PAYLOAD_CMS_FRONTEND_TOKEN=my-super-complex-secret # Please modify
+PAYLOAD_PREVIEW_SECRET=my-super-complex-secret # Please modify
+
 NEXT_PUBLIC_URL=https://your-catalyst-project.vercel.app # Modify accordingly to your project URL
 PAYLOADCMS_DB_ADAPTER=... # Modify accordingly to your database adapter (see below)
 ```
