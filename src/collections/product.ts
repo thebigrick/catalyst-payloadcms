@@ -1,9 +1,41 @@
-import { CollectionConfig } from 'payload';
+/* eslint-disable no-underscore-dangle */
+
+import { CollectionAfterChangeHook, CollectionAfterDeleteHook, CollectionConfig } from 'payload';
 
 import componentSchemas from '@thebigrick/catalyst-payloadcms/collections/component-schemas';
 import containerSchemas from '@thebigrick/catalyst-payloadcms/collections/container-schemas';
+import { Product as ProductType } from '@thebigrick/catalyst-payloadcms/generated-types';
 import getCatalystUrl from '@thebigrick/catalyst-payloadcms/service/get-catalyst-url';
 import isFrontendRequest from '@thebigrick/catalyst-payloadcms/service/is-frontend-request';
+
+export const invalidateCacheOnStatusChange: CollectionAfterChangeHook = async (args) => {
+  // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
+  const doc = args.doc as ProductType;
+  // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
+  const prevDoc = args.previousDoc as ProductType;
+
+  if (doc._status !== prevDoc._status) {
+    const { default: invalidateProduct } = await import(
+      '@thebigrick/catalyst-payloadcms/service/invalidate-product'
+    );
+
+    await invalidateProduct(doc);
+    await invalidateProduct(prevDoc);
+  }
+};
+
+export const invalidateCacheOnDelete: CollectionAfterDeleteHook = async (args) => {
+  // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
+  const doc = args.doc as ProductType;
+
+  if (doc._status === 'published') {
+    const { default: invalidateProduct } = await import(
+      '@thebigrick/catalyst-payloadcms/service/invalidate-product'
+    );
+
+    await invalidateProduct(doc);
+  }
+};
 
 const Product: CollectionConfig = {
   slug: 'product',
@@ -17,6 +49,10 @@ const Product: CollectionConfig = {
       },
     },
     maxPerDoc: 10,
+  },
+  hooks: {
+    afterChange: [invalidateCacheOnStatusChange],
+    afterDelete: [invalidateCacheOnDelete],
   },
   admin: {
     livePreview: {
@@ -40,17 +76,36 @@ const Product: CollectionConfig = {
       required: true,
     },
     {
-      name: 'hideOriginalDescription',
-      type: 'checkbox',
-      label: 'Hide original description',
-      defaultValue: true,
+      name: 'heading',
+      label: 'Heading',
+      type: 'group',
+      fields: [
+        {
+          name: 'blocks',
+          type: 'blocks',
+          label: 'Blocks',
+          blocks: [...componentSchemas, ...containerSchemas],
+        },
+      ],
     },
     {
       name: 'description',
-      type: 'blocks',
       label: 'Description',
-      required: true,
-      blocks: [...componentSchemas, ...containerSchemas],
+      type: 'group',
+      fields: [
+        {
+          name: 'hideOriginalDescription',
+          type: 'checkbox',
+          label: 'Hide original description',
+          defaultValue: true,
+        },
+        {
+          name: 'blocks',
+          type: 'blocks',
+          label: 'Blocks',
+          blocks: [...componentSchemas, ...containerSchemas],
+        },
+      ],
     },
   ],
 };

@@ -11,10 +11,18 @@ query SearchProductByEntityIdQuery($entityId: String!, $locale:LocaleInputType!,
   Products(where:{entityId:{equals:$entityId}}, locale:$locale, draft:$draft) {
     docs {
       entityId
-      hideOriginalDescription
+      heading {
+        blocks {
+          __typename
+          ${fragmentData.request}
+        }
+      }
       description {
-        __typename
-        ${fragmentData.request}
+        hideOriginalDescription
+        blocks {
+          __typename
+          ${fragmentData.request}
+        }
       }
       _status
     }

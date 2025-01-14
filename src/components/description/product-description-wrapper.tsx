@@ -20,7 +20,7 @@ const ProductDescriptionWrapper: PluginComponentWrapper<typeof Description> = as
     draft: await isPayloadPreview(),
   });
 
-  if (!payloadProduct) {
+  if (!payloadProduct?.description) {
     return (
       <>
         <RefreshRouteOnSave />
@@ -30,18 +30,18 @@ const ProductDescriptionWrapper: PluginComponentWrapper<typeof Description> = as
     );
   }
 
-  return payloadProduct.hideOriginalDescription ? (
+  return payloadProduct.description.hideOriginalDescription ? (
     <>
       <h2 className="mb-4 text-xl font-bold md:text-2xl">{t('heading')}</h2>
       <RefreshRouteOnSave />
-      <ChildrenBlocks blocks={payloadProduct.description} />
+      <ChildrenBlocks blocks={payloadProduct.description.blocks} />
     </>
   ) : (
     <>
       {/* eslint-disable-next-line @typescript-eslint/no-unsafe-assignment */}
       <WrappedComponent product={product} />
       <RefreshRouteOnSave />
-      <ChildrenBlocks blocks={payloadProduct.description} />
+      <ChildrenBlocks blocks={payloadProduct.description.blocks} />
     </>
   );
 };
