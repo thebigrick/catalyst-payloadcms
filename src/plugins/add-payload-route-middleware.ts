@@ -26,7 +26,9 @@ const applyPayloadRouteMiddleware = functionPlugin<typeof withRoutes>({
   resourceId: '@bigcommerce/catalyst-core/middlewares/with-routes:withRoutes',
   wrap: (source, ...args) => {
     return async (request: NextRequest, event: NextFetchEvent) => {
-      const isPreviewRequest = request.nextUrl.search.includes(`_payload_preview=${process.env.PAYLOAD_PREVIEW_SECRET}`);
+      const isPreviewRequest = request.nextUrl.search.includes(
+        `_payload_preview=${process.env.PAYLOAD_PREVIEW_SECRET}`,
+      );
 
       const { pathname } = request.nextUrl;
       const locale = request.headers.get('x-bc-locale') ?? '';

@@ -35,6 +35,7 @@ export const SEOField: Field = {
 export const BlocksField: Field = {
   type: 'blocks',
   name: 'blocks',
+  localized: true,
   label: 'Content',
   blocks: [...componentSchemas, ...containerSchemas],
 };

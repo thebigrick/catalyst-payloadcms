@@ -16,6 +16,7 @@ const invalidateProduct = async (product: Product): Promise<void> => {
       const payloadConfig = await config;
       const locales = payloadConfig.localization ? payloadConfig.localization.localeCodes : ['en'];
       const productPath = await getBigcommerceProductPath(parseInt(product.entityId, 10));
+
       if (!productPath) {
         return;
       }

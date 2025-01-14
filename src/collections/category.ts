@@ -4,41 +4,41 @@ import { CollectionAfterChangeHook, CollectionAfterDeleteHook, CollectionConfig 
 
 import componentSchemas from '@thebigrick/catalyst-payloadcms/collections/component-schemas';
 import containerSchemas from '@thebigrick/catalyst-payloadcms/collections/container-schemas';
-import { Product as ProductType } from '@thebigrick/catalyst-payloadcms/generated-types';
+import { Category as CategoryType } from '@thebigrick/catalyst-payloadcms/generated-types';
 import getCatalystUrl from '@thebigrick/catalyst-payloadcms/service/get-catalyst-url';
 import isFrontendRequest from '@thebigrick/catalyst-payloadcms/service/is-frontend-request';
 
 export const invalidateCacheOnStatusChange: CollectionAfterChangeHook = async (args) => {
   // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
-  const doc = args.doc as ProductType;
+  const doc = args.doc as CategoryType;
   // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
-  const prevDoc = args.previousDoc as ProductType;
+  const prevDoc = args.previousDoc as CategoryType;
 
   if (doc._status !== prevDoc._status) {
-    const { default: invalidateProduct } = await import(
-      '@thebigrick/catalyst-payloadcms/service/invalidate-product'
+    const { default: invalidateCategory } = await import(
+      '@thebigrick/catalyst-payloadcms/service/invalidate-category'
     );
 
-    await invalidateProduct(doc);
-    await invalidateProduct(prevDoc);
+    await invalidateCategory(doc);
+    await invalidateCategory(prevDoc);
   }
 };
 
 export const invalidateCacheOnDelete: CollectionAfterDeleteHook = async (args) => {
   // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
-  const doc = args.doc as ProductType;
+  const doc = args.doc as CategoryType;
 
   if (doc._status === 'published') {
-    const { default: invalidateProduct } = await import(
-      '@thebigrick/catalyst-payloadcms/service/invalidate-product'
+    const { default: invalidateCategory } = await import(
+      '@thebigrick/catalyst-payloadcms/service/invalidate-category'
     );
 
-    await invalidateProduct(doc);
+    await invalidateCategory(doc);
   }
 };
 
-const Product: CollectionConfig = {
-  slug: 'product',
+const Category: CollectionConfig = {
+  slug: 'category',
   access: {
     read: isFrontendRequest,
   },
@@ -61,7 +61,7 @@ const Product: CollectionConfig = {
         const previewSecret = process.env.PAYLOAD_PREVIEW_SECRET;
 
         if (data.entityId) {
-          return `${baseUrl}/${locale.code}/payload-product-preview/${data.entityId}?_payload_preview=${previewSecret}`;
+          return `${baseUrl}/${locale.code}/payload-category-preview/${data.entityId}?_payload_preview=${previewSecret}`;
         }
 
         return baseUrl;
@@ -72,7 +72,7 @@ const Product: CollectionConfig = {
     {
       name: 'entityId',
       type: 'text',
-      label: 'Product ID',
+      label: 'Category ID',
       required: true,
     },
     {
@@ -81,7 +81,7 @@ const Product: CollectionConfig = {
       type: 'group',
       fields: [
         {
-          name: 'productPath',
+          name: 'categoryPath',
           type: 'text',
           label: 'Custom path',
           localized: true,
@@ -103,27 +103,7 @@ const Product: CollectionConfig = {
         },
       ],
     },
-    {
-      name: 'description',
-      label: 'Description',
-      type: 'group',
-      fields: [
-        {
-          name: 'hideOriginalDescription',
-          type: 'checkbox',
-          label: 'Hide original description',
-          defaultValue: true,
-        },
-        {
-          name: 'blocks',
-          type: 'blocks',
-          localized: true,
-          label: 'Blocks',
-          blocks: [...componentSchemas, ...containerSchemas],
-        },
-      ],
-    },
   ],
 };
 
-export default Product;
+export default Category;

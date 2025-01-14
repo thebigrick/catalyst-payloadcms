@@ -12,6 +12,7 @@ import getPayloadcmsPlugins from '@thebigrick/catalyst-payloadcms/service/get-pa
 
 import Page from './collections/page';
 import Product from "@thebigrick/catalyst-payloadcms/collections/product";
+import Category from "@thebigrick/catalyst-payloadcms/collections/category";
 
 /*
 If you need to extend the configuration, please use:
@@ -40,7 +41,7 @@ const selfPath = fileURLToPath(dirname(import.meta.url));
 const config: Config = {
   editor: lexicalEditor(),
 
-  collections: [Page, Image, Product],
+  collections: [Page, Image, Product, Category],
 
   secret: process.env.PAYLOAD_SECRET || '',
 
