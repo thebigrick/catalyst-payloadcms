@@ -5,6 +5,11 @@ const transformPaths = async <TData extends object = object>(
   data: TData,
   locale: string,
 ): Promise<TData> => {
+  // Do not run in production build, since there is no active endpoint to query
+  if (process.env.NEXT_PHASE === 'phase-production-build') {
+    return data;
+  }
+
   const { products, categories } = await collectCategoryAndProductItems(data);
 
   const productIds = Object.keys(products);

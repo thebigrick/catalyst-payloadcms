@@ -22,12 +22,6 @@ const getLocale = async () => {
   }
 };
 
-const hasLocale = async (): Promise<boolean> => {
-  const headersList = await headers();
-
-  return headersList.has('x-bc-locale');
-};
-
 export default valuePlugin<typeof client>({
   resourceId: '@bigcommerce/catalyst-core/client:client',
   name: 'map-paths',
@@ -41,9 +35,11 @@ export default valuePlugin<typeof client>({
       const res = await originalFetch.call(this, ...config);
 
       try {
-        if (await hasLocale()) {
+        const locale = await getLocale();
+
+        if (locale) {
           // @ts-expect-error Too generic
-          await transformPaths(res.data, await getLocale());
+          await transformPaths(res.data, locale);
         }
       } catch {
         /* This may not work at build time */
