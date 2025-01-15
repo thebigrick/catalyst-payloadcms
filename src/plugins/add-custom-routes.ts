@@ -11,33 +11,41 @@ const addCustomRoutes = functionPlugin<typeof withRoutes>({
   resourceId: '@bigcommerce/catalyst-core/middlewares/with-routes:withRoutes',
   wrap: (source) => {
     return async (request, event) => {
-      const locale = request.headers.get('x-bc-locale') ?? '';
-      const pathname = clearLocaleFromPath(request.nextUrl.pathname, locale)
-        .replace(/\/$/, '')
-        .replace(/^\//, '');
+      // @ts-expect-error There is no first argument
+      const originalRes = await source()(request, event);
 
-      const res = await mapCustomPathsToResourcesPath([pathname], locale);
+      // Get the redirect URL from original response
+      const originalUrl = new URL(originalRes?.headers.get('x-next-url') ?? '', request.url);
 
-      if (res.hasOwnProperty(pathname)) {
-        const newUrl = res[pathname];
+      // If the original URL is the same as the next URL, Catalyst was unable to find a route
+      if (request.nextUrl.pathname === originalUrl.pathname) {
+        const locale = request.headers.get('x-bc-locale') ?? '';
+        const pathname = clearLocaleFromPath(request.nextUrl.pathname, locale)
+          .replace(/\/$/, '')
+          .replace(/^\//, '');
 
-        const customerAccessToken = await getSessionCustomerAccessToken();
-        const postfix =
-          !request.nextUrl.search && !customerAccessToken && request.method === 'GET'
-            ? '/static'
-            : '';
+        const res = await mapCustomPathsToResourcesPath([pathname], locale);
 
-        const url = `/${locale}${newUrl}${postfix}`;
+        if (res.hasOwnProperty(pathname)) {
+          const newUrl = res[pathname];
 
-        const rewriteUrl = new URL(url, request.url);
+          const customerAccessToken = await getSessionCustomerAccessToken();
+          const postfix =
+            !request.nextUrl.search && !customerAccessToken && request.method === 'GET'
+              ? '/static'
+              : '';
 
-        rewriteUrl.search = request.nextUrl.search;
+          const url = `/${locale}${newUrl}${postfix}`;
 
-        return NextResponse.rewrite(rewriteUrl);
+          const rewriteUrl = new URL(url, request.url);
+
+          rewriteUrl.search = request.nextUrl.search;
+
+          return NextResponse.rewrite(rewriteUrl);
+        }
       }
 
-      // @ts-expect-error There is no first argument
-      return source()(request, event);
+      return originalRes;
     };
   },
 });
