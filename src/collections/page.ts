@@ -35,6 +35,7 @@ export const SEOField: Field = {
 export const BlocksField: Field = {
   type: 'blocks',
   name: 'blocks',
+  localized: true,
   label: 'Content',
   blocks: [...componentSchemas, ...containerSchemas],
 };
@@ -82,9 +83,10 @@ const Page: CollectionConfig = {
     livePreview: {
       url: ({ data, locale }) => {
         const baseUrl = getCatalystUrl();
+        const previewSecret = process.env.PAYLOAD_PREVIEW_SECRET;
 
         if (data.slug) {
-          return `${baseUrl}/${locale.code}/payload-preview/${data.id}`;
+          return `${baseUrl}/${locale.code}/payload-page-preview/${data.id}?_payload_preview=${previewSecret}`;
         }
 
         return baseUrl;

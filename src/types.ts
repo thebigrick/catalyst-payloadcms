@@ -29,8 +29,11 @@ export interface PageComponentDefinition {
   fragment: DocumentNode;
 }
 
-export type DbAdapterProviderOptions = {
+export interface DbAdapterProviderOptions {
   hasNumericId: boolean;
 }
 export type DbAdapterProvider = () => DatabaseAdapterResult;
-export type DbAdapterProviderCollection = Record<string, [DbAdapterProvider, DbAdapterProviderOptions]>;
+export type DbAdapterProviderCollection = Record<
+  string,
+  [DbAdapterProvider, DbAdapterProviderOptions]
+>;

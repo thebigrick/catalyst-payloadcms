@@ -3,14 +3,15 @@ import React from 'react';
 import ChildrenBlocks from '@thebigrick/catalyst-payloadcms/components/children-blocks';
 import { RefreshRouteOnSave } from '@thebigrick/catalyst-payloadcms/components/refresh-route-on-save';
 import getPageById from '@thebigrick/catalyst-payloadcms/service/get-page-by-id';
+import isPayloadPreview from "@thebigrick/catalyst-payloadcms/service/is-payload-preview";
 
 export interface PayloadPageProps {
   params: Promise<{ locale: string; id: string }>;
 }
 
-export default async function Home({ params }: PayloadPageProps) {
+export default async function Page({ params }: PayloadPageProps) {
   const { locale, id } = await params;
-  const { blocks } = await getPageById(id, locale, { draft: true });
+  const { blocks } = await getPageById(id, locale, { draft: await isPayloadPreview() });
 
   return (
     <>
@@ -22,7 +23,7 @@ export default async function Home({ params }: PayloadPageProps) {
 
 export const generateMetadata = async ({ params }: PayloadPageProps) => {
   const { locale, id } = await params;
-  const page = await getPageById(id, locale, { draft: true });
+  const page = await getPageById(id, locale, { draft: await isPayloadPreview() });
 
   return {
     title: page.title,
