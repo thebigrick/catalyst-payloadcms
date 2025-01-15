@@ -1,4 +1,4 @@
-import clsx from 'clsx';
+import { clsx } from 'clsx';
 import React, { JSX } from 'react';
 
 import { HeadingBlock } from '@thebigrick/catalyst-payloadcms/generated-types';

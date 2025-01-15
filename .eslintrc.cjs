@@ -60,6 +60,7 @@ const config = {
     'test-results/**',
     '**/google_analytics4.js',
     '*.test.js',
+    'core-files/**',
     'src/app/**',
   ],
 };

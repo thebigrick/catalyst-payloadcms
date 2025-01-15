@@ -1,4 +1,4 @@
-import clsx from 'clsx';
+import { clsx } from 'clsx';
 import React, { PropsWithChildren } from 'react';
 
 import useBoxStyle from '@thebigrick/catalyst-payloadcms/hooks/use-box-style';

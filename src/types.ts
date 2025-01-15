@@ -1,6 +1,5 @@
 import { DocumentNode } from '@0no-co/graphql.web';
-import { Block } from 'payload';
-import { DatabaseAdapterResult } from 'payload/dist/database/types';
+import { Block, Config } from 'payload';
 
 import { BoxBlock, Page } from '@thebigrick/catalyst-payloadcms/generated-types';
 
@@ -32,7 +31,7 @@ export interface PageComponentDefinition {
 export interface DbAdapterProviderOptions {
   hasNumericId: boolean;
 }
-export type DbAdapterProvider = () => DatabaseAdapterResult;
+export type DbAdapterProvider = () => Config['db'];
 export type DbAdapterProviderCollection = Record<
   string,
   [DbAdapterProvider, DbAdapterProviderOptions]

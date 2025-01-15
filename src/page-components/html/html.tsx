@@ -15,7 +15,6 @@ const Html: React.FC<Props> = ({ block }) => {
     return null;
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-return,@typescript-eslint/no-unsafe-call
   return parse(html);
 };
 

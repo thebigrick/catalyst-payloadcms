@@ -7,7 +7,8 @@ const getDbConnection = () => {
     throw new Error('PAYLOADCMS_DB_ADAPTER environment variable is required');
   }
 
-  if (dbAdapters.hasOwnProperty(dbAdapter)) {
+  // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+  if (dbAdapters.hasOwnProperty(dbAdapter) && dbAdapters[dbAdapter]) {
     return dbAdapters[dbAdapter][0]();
   }
 

@@ -1,9 +1,9 @@
 import { Page } from '@thebigrick/catalyst-payloadcms/generated-types';
 import GetPageByIdQuery from '@thebigrick/catalyst-payloadcms/gql/query/get-page-by-id-query';
+import getPageCacheTag from '@thebigrick/catalyst-payloadcms/service/get-page-cache-tag';
+import hasNumericId from '@thebigrick/catalyst-payloadcms/service/has-numeric-id';
 import payloadClient from '@thebigrick/catalyst-payloadcms/service/payload-client';
 import { GraphQLDoc } from '@thebigrick/catalyst-payloadcms/types';
-import getPageCacheTag from "@thebigrick/catalyst-payloadcms/service/get-page-cache-tag";
-import hasNumericId from "@thebigrick/catalyst-payloadcms/service/has-numeric-id";
 
 export interface GetPageOptions {
   draft?: boolean;

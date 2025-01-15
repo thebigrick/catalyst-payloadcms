@@ -3,7 +3,6 @@ import { functionPlugin } from '@thebigrick/catalyst-pluginizr';
 import { NextFetchEvent, NextRequest, NextResponse } from 'next/server';
 
 import getPageIdBySlug from '@thebigrick/catalyst-payloadcms/service/get-page-id-by-slug';
-import isPayloadPreview from '@thebigrick/catalyst-payloadcms/service/is-payload-preview';
 
 const getSlugFromPathname = (pathname: string, locale: string) => {
   if (pathname === '/' || pathname === `/${locale}` || pathname === `/${locale}/`) {

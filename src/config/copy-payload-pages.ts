@@ -12,12 +12,11 @@ const copyPayloadPages = (): void => {
   const catalystRoot = path.resolve(selfPath, '../../../../');
 
   const directories = {
-    [path.resolve(path.join(selfPath, '../files/(payload)'))]: path.resolve(
+    [path.resolve(path.join(selfPath, '../../core-files/(payload)'))]: path.resolve(
       path.join(catalystRoot, 'core/app/(payload)'),
     ),
-    [path.resolve(path.join(selfPath, '../files/[locale]/(default)/(payload)'))]: path.resolve(
-      path.join(catalystRoot, 'core/app/[locale]/(default)/(payload)'),
-    ),
+    [path.resolve(path.join(selfPath, '../../core-files/[locale]/(default)/(payload)'))]:
+      path.resolve(path.join(catalystRoot, 'core/app/[locale]/(default)/(payload)')),
   };
 
   // eslint-disable-next-line no-restricted-syntax

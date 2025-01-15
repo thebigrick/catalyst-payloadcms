@@ -1,4 +1,4 @@
-import clsx from 'clsx';
+import { clsx } from 'clsx';
 import NextImage from 'next/image';
 import React from 'react';
 

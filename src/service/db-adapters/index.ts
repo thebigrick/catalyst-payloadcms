@@ -6,7 +6,7 @@ import { DbAdapterProviderCollection } from '@thebigrick/catalyst-payloadcms/typ
 const dbAdapters: DbAdapterProviderCollection = {
   mongodb: [getMongoDb, { hasNumericId: false }],
   postgres: [getPostgres, { hasNumericId: true }],
-  'vercel-postgres': [getVercelPostgres, { hasNumericId: true }]
+  'vercel-postgres': [getVercelPostgres, { hasNumericId: true }],
 };
 
 export default dbAdapters;

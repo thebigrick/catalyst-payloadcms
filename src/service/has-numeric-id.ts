@@ -3,7 +3,8 @@ import dbAdapters from '@thebigrick/catalyst-payloadcms/service/db-adapters';
 function hasNumericId(): boolean {
   const dbAdapter = process.env.PAYLOADCMS_DB_ADAPTER || '';
 
-  if (dbAdapters.hasOwnProperty(dbAdapter)) {
+  // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+  if (dbAdapters[dbAdapter]) {
     return dbAdapters[dbAdapter][1].hasNumericId;
   }
 

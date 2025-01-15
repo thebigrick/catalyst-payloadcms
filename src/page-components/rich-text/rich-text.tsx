@@ -1,4 +1,3 @@
-// @ts-expect-error - The import exists
 import { RichText as PayloadRichText } from '@payloadcms/richtext-lexical/react';
 import React from 'react';
 

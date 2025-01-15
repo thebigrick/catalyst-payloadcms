@@ -1,10 +1,8 @@
 import { Category } from '@thebigrick/catalyst-payloadcms/generated-types';
-import SearchProductByEntityIdQuery from '@thebigrick/catalyst-payloadcms/gql/query/search-product-by-entity-id-query';
+import SearchCategoryByEntityIdQuery from '@thebigrick/catalyst-payloadcms/gql/query/search-category-by-entity-id-query';
 import getCategoryCacheTag from '@thebigrick/catalyst-payloadcms/service/get-category-cache-tag';
 import payloadClient from '@thebigrick/catalyst-payloadcms/service/payload-client';
 import { GraphQLDocsCollection } from '@thebigrick/catalyst-payloadcms/types';
-import SearchCategoryByEntityIdQuery
-  from "@thebigrick/catalyst-payloadcms/gql/query/search-category-by-entity-id-query";
 
 export interface GetCategoryOptions {
   draft?: boolean;

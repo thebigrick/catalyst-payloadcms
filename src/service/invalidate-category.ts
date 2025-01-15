@@ -3,7 +3,7 @@ import { revalidatePath, revalidateTag } from 'next/cache';
 import config from '@payload-config';
 import { Category } from '@thebigrick/catalyst-payloadcms/generated-types';
 import getBigcommerceCategoryPath from '@thebigrick/catalyst-payloadcms/service/get-bigcommerce-category-path';
-import getProductCacheTag from '@thebigrick/catalyst-payloadcms/service/get-product-cache-tag';
+import getCategoryCacheTag from '@thebigrick/catalyst-payloadcms/service/get-category-cache-tag';
 
 /**
  * Invalidate a page in all its locales
@@ -34,7 +34,7 @@ const invalidateCategory = async (category: Category): Promise<void> => {
     }
 
     if (category.entityId) {
-      revalidateTag(getProductCacheTag(category.entityId));
+      revalidateTag(getCategoryCacheTag(category.entityId));
     }
   } catch (error) {
     console.error('Error invalidating page', error);

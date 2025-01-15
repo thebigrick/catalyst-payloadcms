@@ -10,6 +10,10 @@ const transformPaths = async <TData extends object = object>(
   const productIds = Object.keys(products);
   const categoryIds = Object.keys(categories);
 
+  if (!productIds.length && !categoryIds.length) {
+    return data;
+  }
+
   const { products: productCustomPaths, categories: categoryCustomPaths } =
     await getCustomPathsByEntityIds(productIds, categoryIds, locale);
 
@@ -18,8 +22,7 @@ const transformPaths = async <TData extends object = object>(
     if (productCustomPaths.hasOwnProperty(entityId)) {
       // eslint-disable-next-line no-restricted-syntax
       for (const item of items) {
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-        item.path = productCustomPaths[entityId];
+        item.path = productCustomPaths[Number(entityId)];
       }
     }
   }
@@ -29,8 +32,7 @@ const transformPaths = async <TData extends object = object>(
     if (categoryCustomPaths.hasOwnProperty(entityId)) {
       // eslint-disable-next-line no-restricted-syntax
       for (const item of items) {
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-        item.path = categoryCustomPaths[entityId];
+        item.path = categoryCustomPaths[Number(entityId)];
       }
     }
   }

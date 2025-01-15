@@ -2,8 +2,10 @@
 
 import { getSessionCustomerAccessToken } from '@bigcommerce/catalyst-core/auth';
 import { client } from '@bigcommerce/catalyst-core/client';
+import { ResultOf } from '@bigcommerce/catalyst-core/client/graphql';
 import { revalidate } from '@bigcommerce/catalyst-core/client/revalidate-target';
 import { ProductCardCarousel } from '@bigcommerce/catalyst-core/components/product-card-carousel';
+import { ProductCardCarouselFragment } from '@bigcommerce/catalyst-core/components/product-card-carousel/fragment';
 import React, { cache } from 'react';
 
 import Box from '@thebigrick/catalyst-payloadcms/components/box';
@@ -15,9 +17,7 @@ export interface Props extends BlockComponentProps {
   block: ProductsCarouselBlock;
 }
 
-interface Product {
-  entityId: number;
-}
+type Product = ResultOf<typeof ProductCardCarouselFragment>;
 
 /**
  * Fetches a list of products by their entity IDs
@@ -39,6 +39,7 @@ const getProductsList = cache(async (entityIds: number[]) => {
   // eslint-disable-next-line
   const products = (response.data as any).site.products.edges.map((edge: any) => edge.node) as Product[];
 
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-argument,@typescript-eslint/no-unsafe-return
   return products.sort((a, b) => entityIds.indexOf(a.entityId) - entityIds.indexOf(b.entityId));
 });
 

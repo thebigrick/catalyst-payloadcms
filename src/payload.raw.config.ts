@@ -6,13 +6,13 @@ import { Config } from 'payload';
 import sharp from 'sharp';
 import { fileURLToPath } from 'url';
 
+import Category from '@thebigrick/catalyst-payloadcms/collections/category';
 import { Image } from '@thebigrick/catalyst-payloadcms/collections/image';
+import Product from '@thebigrick/catalyst-payloadcms/collections/product';
 import getDbConnection from '@thebigrick/catalyst-payloadcms/service/get-db-connection';
 import getPayloadcmsPlugins from '@thebigrick/catalyst-payloadcms/service/get-payloadcms-plugins';
 
 import Page from './collections/page';
-import Product from "@thebigrick/catalyst-payloadcms/collections/product";
-import Category from "@thebigrick/catalyst-payloadcms/collections/category";
 
 /*
 If you need to extend the configuration, please use:
