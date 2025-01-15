@@ -9,39 +9,63 @@ import mapCustomPathsToResourcesPath from '@thebigrick/catalyst-payloadcms/servi
 const addCustomRoutes = functionPlugin<typeof withRoutes>({
   name: 'add-custom-routes',
   resourceId: '@bigcommerce/catalyst-core/middlewares/with-routes:withRoutes',
-  wrap: (source) => {
+  wrap: (source, ...args) => {
     return async (request, event) => {
-      // @ts-expect-error There is no first argument
-      const originalRes = await source()(request, event);
+      if (
+        request.nextUrl.search.includes('_payload_preview') &&
+        !process.env.PAYLOAD_PREVIEW_SECRET
+      ) {
+        throw new Error('Missing PAYLOAD_PREVIEW_SECRET');
+      }
 
-      // Get the redirect URL from original response
-      const originalUrl = new URL(originalRes?.headers.get('x-next-url') ?? '', request.url);
+      const isPreviewRequest = request.nextUrl.search.includes(
+        `_payload_preview=${process.env.PAYLOAD_PREVIEW_SECRET}`,
+      );
 
-      // If the original URL is the same as the next URL, Catalyst was unable to find a route
-      if (request.nextUrl.pathname === originalUrl.pathname) {
-        const locale = request.headers.get('x-bc-locale') ?? '';
-        const pathname = clearLocaleFromPath(request.nextUrl.pathname, locale)
+      if (isPreviewRequest) {
+        request.headers.set('x-payload-preview', 'true');
+      }
+
+      const locale = request.headers.get('x-bc-locale') ?? '';
+      const pathname =
+        clearLocaleFromPath(request.nextUrl.pathname, locale)
           .replace(/\/$/, '')
-          .replace(/^\//, '');
+          .replace(/^\//, '') || '/';
 
-        const res = await mapCustomPathsToResourcesPath([pathname], locale);
+      const res = await mapCustomPathsToResourcesPath([pathname], locale);
 
-        if (res.hasOwnProperty(pathname)) {
-          const newUrl = res[pathname];
+      if (res.hasOwnProperty(pathname)) {
+        const newUrl = res[pathname];
 
-          const customerAccessToken = await getSessionCustomerAccessToken();
-          const postfix =
-            !request.nextUrl.search && !customerAccessToken && request.method === 'GET'
-              ? '/static'
-              : '';
+        const customerAccessToken = await getSessionCustomerAccessToken();
+        const postfix =
+          !request.nextUrl.search &&
+          !customerAccessToken &&
+          request.method === 'GET' &&
+          !newUrl.startsWith('/payload-page/')
+            ? '/static'
+            : '';
 
-          const url = `/${locale}${newUrl}${postfix}`;
+        const url = `/${locale}${newUrl}${postfix}`;
 
-          const rewriteUrl = new URL(url, request.url);
+        const rewriteUrl = new URL(url, request.url);
 
-          rewriteUrl.search = request.nextUrl.search;
+        rewriteUrl.search = request.nextUrl.search;
 
-          return NextResponse.rewrite(rewriteUrl);
+        return NextResponse.rewrite(rewriteUrl);
+      }
+
+      // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
+      const originalRes = (await source(...args)(request, event)) as NextResponse;
+
+      // In case of a rewrite, we need to add the x-payload-preview header
+      if (isPreviewRequest) {
+        if (originalRes.headers.has('x-middleware-rewrite')) {
+          const headers = new Headers(originalRes.headers);
+
+          headers.set('x-payload-preview', 'true');
+
+          return NextResponse.next({ headers });
         }
       }
 

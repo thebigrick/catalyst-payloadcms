@@ -12,7 +12,7 @@ const mapCustomPathsToResourcesPath = async (
   paths: string[],
   locale: string,
 ): Promise<CustomPathResponse> => {
-  const { categories, products } = await getEntityIdsByCustomPaths(paths, locale);
+  const { categories, products, pages } = await getEntityIdsByCustomPaths(paths, locale);
 
   const productsUrl = Object.keys(products).reduce<CustomPathResponse>((acc, path) => {
     acc[path] = `/product/${products[path]}`;
@@ -26,9 +26,16 @@ const mapCustomPathsToResourcesPath = async (
     return acc;
   }, {});
 
+  const pagesUrl = Object.keys(pages).reduce<CustomPathResponse>((acc, path) => {
+    acc[path] = `/payload-page/${pages[path]}`;
+
+    return acc;
+  }, {});
+
   return {
     ...productsUrl,
     ...categoriesUrl,
+    ...pagesUrl,
   };
 };
 
