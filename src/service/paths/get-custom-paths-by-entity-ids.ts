@@ -1,3 +1,5 @@
+import { cache } from 'react';
+
 import { Category, Product } from '@thebigrick/catalyst-payloadcms/generated-types';
 import SearchCustomPathsByEntityIds from '@thebigrick/catalyst-payloadcms/gql/query/search-custom-paths-by-entity-ids';
 import payloadClient from '@thebigrick/catalyst-payloadcms/service/payload-client';
@@ -15,27 +17,29 @@ export interface CustomPathsResponse {
  * @param {string} locale
  * @returns {Promise<string>} The ID of the page
  */
-const getCustomPathsByEntityIds = async (
-  productEntityIds: string[],
-  categoryEntityIds: string[],
-  locale: string,
-): Promise<CustomPathsResponse> => {
-  const res = await payloadClient<
-    GraphQLDocsCollection<Category | Product, 'Categories' | 'Products'>
-  >({
-    document: SearchCustomPathsByEntityIds,
-    variables: { productEntityIds, categoryEntityIds, locale },
-    fetchOptions: {
-      next: {
-        tags: ['payloadcms-paths'],
-        revalidate: 86400,
+const getCustomPathsByEntityIds = cache(
+  async (
+    productEntityIds: string[],
+    categoryEntityIds: string[],
+    locale: string,
+  ): Promise<CustomPathsResponse> => {
+    const res = await payloadClient<
+      GraphQLDocsCollection<Category | Product, 'Categories' | 'Products'>
+    >({
+      document: SearchCustomPathsByEntityIds,
+      variables: { productEntityIds, categoryEntityIds, locale },
+      fetchOptions: {
+        next: {
+          tags: ['payloadcms-paths'],
+          revalidate: 86400,
+        },
       },
-    },
-  });
+    });
 
-  // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
-  const categories = (res.Categories.docs as Category[]).reduce<CustomPathsResponse['categories']>(
-    (acc, category) => {
+    // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
+    const categories = (res.Categories.docs as Category[]).reduce<
+      CustomPathsResponse['categories']
+    >((acc, category) => {
       if (category.seo?.categoryPath) {
         const entityId = parseInt(category.entityId, 10);
 
@@ -43,28 +47,27 @@ const getCustomPathsByEntityIds = async (
       }
 
       return acc;
-    },
-    {},
-  );
+    }, {});
 
-  // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
-  const products = (res.Products.docs as Product[]).reduce<CustomPathsResponse['products']>(
-    (acc, product) => {
-      if (product.seo?.productPath) {
-        const entityId = parseInt(product.entityId, 10);
+    // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
+    const products = (res.Products.docs as Product[]).reduce<CustomPathsResponse['products']>(
+      (acc, product) => {
+        if (product.seo?.productPath) {
+          const entityId = parseInt(product.entityId, 10);
 
-        acc[entityId] = product.seo.productPath;
-      }
+          acc[entityId] = product.seo.productPath;
+        }
 
-      return acc;
-    },
-    {},
-  );
+        return acc;
+      },
+      {},
+    );
 
-  return {
-    categories,
-    products,
-  };
-};
+    return {
+      categories,
+      products,
+    };
+  },
+);
 
 export default getCustomPathsByEntityIds;
