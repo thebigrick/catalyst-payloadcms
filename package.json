@@ -34,7 +34,8 @@
     "tailwind-variants": "^0.3.0",
     "tailwind-merge": "^2.6.0",
     "clsx": "^2.1.1",
-    "html-react-parser": "^5.2.2"
+    "html-react-parser": "^5.2.2",
+    "uuid": "^11.0.5"
   },
   "peerDependencies": {
     "@0no-co/graphql.web": "~1.0.12",

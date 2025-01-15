@@ -4,7 +4,7 @@ import { functionPlugin } from '@thebigrick/catalyst-pluginizr';
 import { NextResponse } from 'next/server';
 
 import clearLocaleFromPath from '@thebigrick/catalyst-payloadcms/service/clear-locale-from-path';
-import getCustomPaths from '@thebigrick/catalyst-payloadcms/service/get-custom-paths';
+import mapCustomPathsToResourcesPath from '@thebigrick/catalyst-payloadcms/service/paths/map-custom-paths-to-resources-path';
 
 const addCustomRoutes = functionPlugin<typeof withRoutes>({
   name: 'add-custom-routes',
@@ -16,7 +16,7 @@ const addCustomRoutes = functionPlugin<typeof withRoutes>({
         .replace(/\/$/, '')
         .replace(/^\//, '');
 
-      const res = await getCustomPaths([pathname], locale);
+      const res = await mapCustomPathsToResourcesPath([pathname], locale);
 
       if (res.hasOwnProperty(pathname)) {
         const newUrl = res[pathname];
