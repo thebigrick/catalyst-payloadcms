@@ -21,8 +21,9 @@ const getBigcommerceProductPaths = async (entityId: number): Promise<string[]> =
     paths.push(data.product.path);
   }
 
-  if (data.categories?.edges) {
-    data.categories.edges.forEach((category: any) => {
+  if (data.product?.categories?.edges) {
+    // eslint-disable-next-line
+    data.product?.categories.edges.forEach((category: any) => {
       if (category.node.path) {
         paths.push(category.node.path);
       }

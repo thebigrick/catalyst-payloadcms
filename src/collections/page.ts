@@ -47,11 +47,11 @@ export const invalidateCacheOnStatusChange: CollectionAfterChangeHook = async (a
   // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
   const prevDoc = args.previousDoc as PageType;
 
-  if (doc.slug !== prevDoc.slug) {
-    await invalidatePaths();
-  }
-
   if (doc._status !== prevDoc._status) {
+    if (doc.slug !== prevDoc.slug) {
+      await invalidatePaths();
+    }
+
     await invalidatePage(doc);
     await invalidatePage(prevDoc);
   }

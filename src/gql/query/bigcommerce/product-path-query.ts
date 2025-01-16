@@ -5,11 +5,11 @@ const ProductPathQuery = graphql(`
     site {
       product(entityId: $entityId) {
         path
-      }
-      categories {
-        edges {
-          node {
-            path
+        categories {
+          edges {
+            node {
+              path
+            }
           }
         }
       }
