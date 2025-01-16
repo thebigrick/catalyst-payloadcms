@@ -6,6 +6,7 @@ import componentSchemas from '@thebigrick/catalyst-payloadcms/collections/compon
 import containerSchemas from '@thebigrick/catalyst-payloadcms/collections/container-schemas';
 import { Product as ProductType } from '@thebigrick/catalyst-payloadcms/generated-types';
 import getCatalystUrl from '@thebigrick/catalyst-payloadcms/service/get-catalyst-url';
+import invalidatePaths from '@thebigrick/catalyst-payloadcms/service/invalidate-paths';
 import isFrontendRequest from '@thebigrick/catalyst-payloadcms/service/is-frontend-request';
 
 export const invalidateCacheOnStatusChange: CollectionAfterChangeHook = async (args) => {
@@ -18,6 +19,10 @@ export const invalidateCacheOnStatusChange: CollectionAfterChangeHook = async (a
     const { default: invalidateProduct } = await import(
       '@thebigrick/catalyst-payloadcms/service/invalidate-product'
     );
+
+    if (doc.seo?.productPath !== prevDoc.seo?.productPath) {
+      await invalidatePaths();
+    }
 
     await invalidateProduct(doc);
     await invalidateProduct(prevDoc);
@@ -32,6 +37,10 @@ export const invalidateCacheOnDelete: CollectionAfterDeleteHook = async (args) =
     const { default: invalidateProduct } = await import(
       '@thebigrick/catalyst-payloadcms/service/invalidate-product'
     );
+
+    if (doc.seo?.productPath) {
+      await invalidatePaths();
+    }
 
     await invalidateProduct(doc);
   }

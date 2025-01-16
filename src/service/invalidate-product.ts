@@ -2,7 +2,7 @@ import { revalidatePath, revalidateTag } from 'next/cache';
 
 import config from '@payload-config';
 import { Product } from '@thebigrick/catalyst-payloadcms/generated-types';
-import getBigcommerceProductPath from '@thebigrick/catalyst-payloadcms/service/get-bigcommerce-product-path';
+import getBigcommerceProductPaths from '@thebigrick/catalyst-payloadcms/service/get-bigcommerce-product-paths';
 import getProductCacheTag from '@thebigrick/catalyst-payloadcms/service/get-product-cache-tag';
 
 /**
@@ -15,21 +15,20 @@ const invalidateProduct = async (product: Product): Promise<void> => {
     if (product.entityId) {
       const payloadConfig = await config;
       const locales = payloadConfig.localization ? payloadConfig.localization.localeCodes : ['en'];
-      const productPath = await getBigcommerceProductPath(parseInt(product.entityId, 10));
-
-      if (!productPath) {
-        return;
-      }
-
-      const baseProductPath = productPath.replace(/^\//, '').replace(/\/$/, '');
-
-      revalidatePath(`/${baseProductPath}`);
-      revalidatePath(`/${baseProductPath}/`);
+      const productPaths = await getBigcommerceProductPaths(parseInt(product.entityId, 10));
 
       // eslint-disable-next-line no-restricted-syntax
-      for (const locale of locales) {
-        revalidatePath(`/${locale}/${productPath}`);
-        revalidatePath(`/${locale}/${productPath}/`);
+      for (const productPath of productPaths) {
+        const baseProductPath = productPath.replace(/^\//, '').replace(/\/$/, '');
+
+        revalidatePath(`/${baseProductPath}`);
+        revalidatePath(`/${baseProductPath}/`);
+
+        // eslint-disable-next-line no-restricted-syntax
+        for (const locale of locales) {
+          revalidatePath(`/${locale}/${productPath}`);
+          revalidatePath(`/${locale}/${productPath}/`);
+        }
       }
     }
 

@@ -6,6 +6,13 @@ const ProductPathQuery = graphql(`
       product(entityId: $entityId) {
         path
       }
+      categories {
+        edges {
+          node {
+            path
+          }
+        }
+      }
     }
   }
 `);

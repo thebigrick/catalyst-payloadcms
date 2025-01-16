@@ -11,6 +11,7 @@ import componentSchemas from '@thebigrick/catalyst-payloadcms/collections/compon
 import containerSchemas from '@thebigrick/catalyst-payloadcms/collections/container-schemas';
 import getCatalystUrl from '@thebigrick/catalyst-payloadcms/service/get-catalyst-url';
 import invalidatePage from '@thebigrick/catalyst-payloadcms/service/invalidate-page';
+import invalidatePaths from '@thebigrick/catalyst-payloadcms/service/invalidate-paths';
 import isFrontendRequest from '@thebigrick/catalyst-payloadcms/service/is-frontend-request';
 
 import { Page as PageType } from '../generated-types';
@@ -46,6 +47,10 @@ export const invalidateCacheOnStatusChange: CollectionAfterChangeHook = async (a
   // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
   const prevDoc = args.previousDoc as PageType;
 
+  if (doc.slug !== prevDoc.slug) {
+    await invalidatePaths();
+  }
+
   if (doc._status !== prevDoc._status) {
     await invalidatePage(doc);
     await invalidatePage(prevDoc);
@@ -58,6 +63,7 @@ export const invalidateCacheOnDelete: CollectionAfterDeleteHook = async (args) =
 
   if (doc._status === 'published') {
     await invalidatePage(doc);
+    await invalidatePaths();
   }
 };
 
