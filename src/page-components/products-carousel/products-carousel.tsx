@@ -44,19 +44,19 @@ const getProductsList = cache(async (entityIds: number[]) => {
 });
 
 const ProductsCarousel = async ({ block }: Props) => {
-  const { productIds, title } = block;
+  const { products, title } = block;
 
-  const productIdsArray = productIds?.split(/[\s,]+/).map((id) => parseInt(id, 10)) || [];
+  const productIdsArray = products?.map((product) => Number(product.entityId)) || [];
 
   if (!productIdsArray.length) {
     return null;
   }
 
-  const products = await getProductsList(productIdsArray);
+  const productItems = await getProductsList(productIdsArray);
 
   return (
     <Box block={block}>
-      <ProductCardCarousel products={products} title={title || ''} />
+      <ProductCardCarousel products={productItems} title={title || ''} />
     </Box>
   );
 };

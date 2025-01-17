@@ -5,4 +5,4 @@ export {
   GET,
   DELETE,
   PATCH,
-} from '@thebigrick/catalyst-payloadcms/app/(payload)/api/[...slug]/route';
+} from '@thebigrick/catalyst-payloadcms/app/(payload)/payload/api/[...slug]/route';

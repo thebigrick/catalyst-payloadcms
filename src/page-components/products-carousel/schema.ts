@@ -13,8 +13,23 @@ const Schema: Block = {
       localized: true,
     },
     {
-      name: 'productIds',
-      type: 'text',
+      name: 'products',
+      type: 'array',
+      fields: [
+        {
+          name: 'entityId',
+          type: 'text',
+          label: 'Product',
+          admin: {
+            components: {
+              Field: {
+                path: '@thebigrick/catalyst-payloadcms/fields/product-picker/field',
+              },
+            },
+          },
+          required: true,
+        },
+      ],
       localized: true,
     },
   ],

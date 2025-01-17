@@ -81,7 +81,14 @@ const Product: CollectionConfig = {
     {
       name: 'entityId',
       type: 'text',
-      label: 'Product ID',
+      label: 'Product',
+      admin: {
+        components: {
+          Field: {
+            path: '@thebigrick/catalyst-payloadcms/fields/product-picker/field',
+          },
+        },
+      },
       required: true,
     },
     {
