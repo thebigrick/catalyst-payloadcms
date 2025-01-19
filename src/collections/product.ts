@@ -85,7 +85,7 @@ const Product: CollectionConfig = {
       admin: {
         components: {
           Field: {
-            path: '@thebigrick/catalyst-payloadcms/fields/product-picker/field',
+            path: '@thebigrick/catalyst-payloadcms/fields/product-picker',
           },
         },
       },

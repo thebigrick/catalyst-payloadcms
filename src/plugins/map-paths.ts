@@ -1,6 +1,5 @@
 import { client } from '@bigcommerce/catalyst-core/client';
 import { valuePlugin } from '@thebigrick/catalyst-pluginizr';
-import { headers } from 'next/headers';
 import { getLocale as getServerLocale } from 'next-intl/server';
 
 import addTypenameToQuery from '@thebigrick/catalyst-payloadcms/service/add-typename-to-query';
