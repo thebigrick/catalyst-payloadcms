@@ -3,22 +3,22 @@
         @apply text-base dark:text-white;
     }
     h1 {
-        @apply text-5xl font-extrabold dark:text-white;
+        @apply text-5xl font-extrabold dark:text-white my-4;
     }
     h2 {
-        @apply text-4xl font-bold dark:text-white;
+        @apply text-4xl font-bold dark:text-white my-3;
     }
     h3 {
-        @apply text-3xl font-bold dark:text-white;
+        @apply text-3xl font-bold dark:text-white my-2;
     }
     h4 {
-        @apply text-2xl font-bold dark:text-white;
+        @apply text-2xl font-bold dark:text-white my-2;
     }
     h5 {
-        @apply text-xl font-bold dark:text-white;
+        @apply text-xl font-bold dark:text-white my-2;
     }
     h6 {
-        @apply text-lg font-bold dark:text-white;
+        @apply text-lg font-bold dark:text-white my-2;
     }
     ol {
         @apply list-decimal list-inside;
@@ -30,9 +30,25 @@
         @apply list-none;
     }
     blockquote {
-        @apply border-l-4 border-gray-300 pl-4;
+        @apply border-l-4 border-gray-300 pl-4 my-4;
     }
     code {
         @apply bg-gray-100 dark:bg-gray-800 text-red-800 dark:text-gray-100 px-1;
+    }
+    p {
+        @apply my-2;
+    }
+    hr {
+        @apply my-2;
+    }
+
+    ul, ol {
+        @apply my-2;
+
+        &.list-check {
+            label {
+                @apply ml-1;
+            }
+        }
     }
 }
