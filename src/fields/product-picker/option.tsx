@@ -8,17 +8,17 @@ const Option: React.FC<OptionProps<ProductData>> = (props) => {
 
   return (
     <components.Option {...props}>
-      <div className="product-option">
+      <div className="product-picker-option">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           alt={product.name || 'Loading'}
-          className="product-image"
+          className="product-picker-image"
           src={product.defaultImage.url}
         />
 
-        <div className="product-details">
-          <p className="product-name">{product.name}</p>
-          <p className="product-data">
+        <div className="product-picker-details">
+          <p className="product-picker-name">{product.name}</p>
+          <p className="product-picker-data">
             ID: {product.entityId} &mdash; SKU: {product.sku}{' '}
           </p>
         </div>

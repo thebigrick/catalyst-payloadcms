@@ -79,6 +79,13 @@ const Category: CollectionConfig = {
       name: 'entityId',
       type: 'text',
       label: 'Category ID',
+      admin: {
+        components: {
+          Field: {
+            path: '@thebigrick/catalyst-payloadcms/fields/category-picker',
+          },
+        },
+      },
       required: true,
     },
     {

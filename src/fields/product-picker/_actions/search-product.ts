@@ -11,7 +11,7 @@ const searchProducts = async (inputValue: string): Promise<ProductData[]> => {
     variables: {
       term: inputValue,
     },
-    fetchOptions: { cache: 'no-store' },
+    fetchOptions: { next: { revalidate: 3600 } },
   });
 
   // eslint-disable-next-line

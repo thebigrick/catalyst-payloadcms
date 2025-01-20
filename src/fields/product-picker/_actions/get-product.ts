@@ -11,6 +11,7 @@ const getProduct = async (id: number): Promise<ProductData> => {
     variables: {
       entityId: Number(id),
     },
+    fetchOptions: { next: { revalidate: 3600 } },
   });
 
   // eslint-disable-next-line

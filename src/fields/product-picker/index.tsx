@@ -1,52 +1,77 @@
 'use client';
 
-import { FieldLabel, useField } from '@payloadcms/ui';
-import { SelectFieldClientProps } from 'payload';
-import React, { useCallback } from 'react';
-import AsyncSelect from 'react-select/async';
 import './select.scss';
 
-import searchProducts from '@thebigrick/catalyst-payloadcms/fields/product-picker/_actions/search-product';
-import Product from '@thebigrick/catalyst-payloadcms/fields/product-picker/product';
+import { FieldLabel, ReactSelect, useField } from '@payloadcms/ui';
+import { Option } from '@payloadcms/ui/dist/elements/ReactSelect/types';
+import { SelectFieldClientProps } from 'payload';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import { useDebounceCallback } from 'usehooks-ts';
 
-import Option from './option';
+import ProductOption from '@thebigrick/catalyst-payloadcms/fields/product-picker/option';
+import useProducts from '@thebigrick/catalyst-payloadcms/fields/product-picker/use-products';
+import ValueContainer from '@thebigrick/catalyst-payloadcms/fields/product-picker/value-container';
 
 export interface Props extends SelectFieldClientProps {}
 
 // See: https://github.com/payloadcms/payload/blob/main/packages/ui/src/fields/Text/index.tsx
 
 const ProductPicker: React.FC<Props> = ({ field, path, readOnly }) => {
-  const { label } = field;
+  const { label, required } = field;
 
-  const { value, setValue } = useField<number>({ path });
+  const { value, setValue } = useField<string>({ path });
+  const [searchTerm, setSearchTerm] = useState<string>('');
 
-  const onClear = useCallback(() => {
-    setValue(null);
-  }, [setValue]);
+  const { products, ready, fetch, fetching } = useProducts(value);
+
+  useEffect(() => {
+    fetch(searchTerm);
+  }, [searchTerm, fetch]);
+
+  const options = useMemo(
+    () =>
+      products.filter(Boolean).map((p) => ({
+        ...p,
+        label: p.name,
+        value: String(p.entityId),
+      })),
+    [products],
+  );
+
+  const handleInputChange = useDebounceCallback(setSearchTerm, 500);
+
+  const handleChange = useCallback(
+    (option: Option | Option[] | null) => {
+      if (Array.isArray(option)) {
+        setValue(option.map((o) => o.value));
+      } else {
+        setValue(option?.value ?? null);
+      }
+    },
+    [setValue],
+  );
 
   return (
-    <div className="field-type slug-field-component product-picker">
+    <div className="field-type select product-picker">
       <div className="label-wrapper">
         {/* @ts-expect-error Missing types here */}
         <FieldLabel field={field} htmlFor={`field-${path}`} label={label} />
       </div>
-      {!value && (
-        <AsyncSelect
-          cacheOptions
-          className={`products-search field-${path.replace(/\./g, '__')}`}
-          // @ts-expect-error Missing types here
-          components={{ Option }}
-          disabled={readOnly}
-          isClearable={true}
-          isMulti={false}
-          isSearchable={true}
-          loadOptions={searchProducts}
-          onChange={(option) => {
-            setValue(option?.entityId);
-          }}
-        />
-      )}
-      {!!value && <Product entityId={value} onClear={onClear} readOnly={readOnly} />}
+
+      <ReactSelect
+        components={{ Option: ProductOption, ValueContainer }}
+        disabled={!ready && readOnly}
+        filterOption={() => true}
+        isClearable={true}
+        isLoading={fetching || !ready}
+        isMulti={false}
+        isSearchable={true}
+        onChange={handleChange}
+        onInputChange={handleInputChange}
+        options={options}
+        showError={!value && required}
+        value={options.find((option) => option.value === value)}
+      />
     </div>
   );
 };
