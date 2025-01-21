@@ -1,5 +1,5 @@
 const clearLocaleFromPath = (path: string, locale: string) => {
-  if (path.startsWith(`/${locale}/`)) {
+  if (path.startsWith(`/${locale}/`) || path === `/${locale}`) {
     return path.replace(`/${locale}`, '');
   }
 
