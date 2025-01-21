@@ -14,22 +14,16 @@ const Schema: Block = {
     },
     {
       name: 'products',
-      type: 'array',
-      fields: [
-        {
-          name: 'entityId',
-          type: 'text',
-          label: 'Product',
-          admin: {
-            components: {
-              Field: {
-                path: '@thebigrick/catalyst-payloadcms/fields/product-picker',
-              },
-            },
+      type: 'text',
+      hasMany: true,
+      admin: {
+        components: {
+          Field: {
+            path: '@thebigrick/catalyst-payloadcms/fields/product-picker',
           },
-          required: true,
         },
-      ],
+      },
+      required: true,
       localized: true,
     },
   ],

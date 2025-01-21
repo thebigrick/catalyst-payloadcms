@@ -1,7 +1,7 @@
 import { graphql } from '@bigcommerce/catalyst-core/client/graphql';
 
-const ProductsSearch = graphql(`
-  query ProductsSearch($term: String!) {
+const AdminProductsSearch = graphql(`
+  query AdminProductsSearch($term: String!) {
     site {
       search {
         searchProducts(filters: { searchTerm: $term }) {
@@ -23,4 +23,4 @@ const ProductsSearch = graphql(`
   }
 `);
 
-export default ProductsSearch;
+export default AdminProductsSearch;

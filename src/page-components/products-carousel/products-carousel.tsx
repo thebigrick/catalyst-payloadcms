@@ -46,7 +46,7 @@ const getProductsList = cache(async (entityIds: number[]) => {
 const ProductsCarousel = async ({ block }: Props) => {
   const { products, title } = block;
 
-  const productIdsArray = products?.map((product) => Number(product.entityId)) || [];
+  const productIdsArray = products?.map((product) => Number(product)) || [];
 
   if (!productIdsArray.length) {
     return null;

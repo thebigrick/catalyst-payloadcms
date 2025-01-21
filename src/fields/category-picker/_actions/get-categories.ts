@@ -3,7 +3,7 @@
 import { client } from '@bigcommerce/catalyst-core/client';
 
 import { CategoryData } from '@thebigrick/catalyst-payloadcms/fields/category-picker/types';
-import CategoryTree from '@thebigrick/catalyst-payloadcms/gql/query/bigcommerce/category-tree';
+import AdminCategoryTree from '@thebigrick/catalyst-payloadcms/gql/query/bigcommerce/admin-category-tree';
 
 const flatten = (
   categories: Array<CategoryData & { children?: CategoryData[] }>,
@@ -21,7 +21,7 @@ const flatten = (
 
 const getCategories = async (): Promise<CategoryData[]> => {
   const response = await client.fetch({
-    document: CategoryTree,
+    document: AdminCategoryTree,
     fetchOptions: { next: { revalidate: 3600 } },
   });
 

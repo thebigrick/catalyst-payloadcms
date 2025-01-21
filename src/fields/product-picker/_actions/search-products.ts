@@ -1,13 +1,14 @@
 'use server';
 
 import { client } from '@bigcommerce/catalyst-core/client';
+import { cache } from 'react';
 
 import { ProductData } from '@thebigrick/catalyst-payloadcms/fields/product-picker/types';
-import ProductsSearch from '@thebigrick/catalyst-payloadcms/gql/query/bigcommerce/products-search';
+import AdminProductsSearch from '@thebigrick/catalyst-payloadcms/gql/query/bigcommerce/admin-products-search';
 
-const searchProducts = async (inputValue: string): Promise<ProductData[]> => {
+const searchProducts = cache(async (inputValue: string): Promise<ProductData[]> => {
   const response = await client.fetch({
-    document: ProductsSearch,
+    document: AdminProductsSearch,
     variables: {
       term: inputValue,
     },
@@ -16,6 +17,6 @@ const searchProducts = async (inputValue: string): Promise<ProductData[]> => {
 
   // eslint-disable-next-line
   return (response.data as any).site.search.searchProducts.products.edges.map((p: any) => p.node);
-};
+});
 
 export default searchProducts;

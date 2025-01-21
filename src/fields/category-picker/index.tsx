@@ -6,8 +6,10 @@ import { SelectFieldClientProps } from 'payload';
 import React, { useCallback } from 'react';
 
 import CategoryOption from '@thebigrick/catalyst-payloadcms/fields/category-picker/option';
+import SingleValue from '@thebigrick/catalyst-payloadcms/fields/category-picker/single-value';
 import useCategories from '@thebigrick/catalyst-payloadcms/fields/category-picker/use-categories';
-import ValueContainer from '@thebigrick/catalyst-payloadcms/fields/category-picker/value-container';
+
+import './select.scss';
 
 export interface Props extends SelectFieldClientProps {}
 
@@ -43,7 +45,7 @@ const CategoryPicker: React.FC<Props> = ({ field, path, readOnly }) => {
         <FieldLabel field={field} htmlFor={`field-${path}`} label={label} />
       </div>
       <ReactSelect
-        components={{ Option: CategoryOption, ValueContainer }}
+        components={{ Option: CategoryOption, SingleValue }}
         disabled={readOnly || loading}
         isLoading={loading}
         isSearchable={true}

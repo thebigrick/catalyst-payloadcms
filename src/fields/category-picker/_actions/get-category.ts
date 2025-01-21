@@ -3,11 +3,11 @@
 import { client } from '@bigcommerce/catalyst-core/client';
 
 import { CategoryData } from '@thebigrick/catalyst-payloadcms/fields/category-picker/types';
-import CategoryByEntityId from '@thebigrick/catalyst-payloadcms/gql/query/bigcommerce/category-by-entity-id';
+import AdminCategoryByEntityId from '@thebigrick/catalyst-payloadcms/gql/query/bigcommerce/admin-category-by-entity-id';
 
 const getCategory = async (id: number): Promise<CategoryData> => {
   const response = await client.fetch({
-    document: CategoryByEntityId,
+    document: AdminCategoryByEntityId,
     variables: {
       entityId: Number(id),
     },

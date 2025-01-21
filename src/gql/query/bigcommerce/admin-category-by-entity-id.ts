@@ -1,6 +1,6 @@
 import { graphql } from '@bigcommerce/catalyst-core/client/graphql';
 
-const CategoryByEntityId = graphql(`
+const AdminCategoryByEntityId = graphql(`
   query CategoryByEntityId($entityId: Int!) {
     site {
       category(entityId: $entityId) {
@@ -12,4 +12,4 @@ const CategoryByEntityId = graphql(`
   }
 `);
 
-export default CategoryByEntityId;
+export default AdminCategoryByEntityId;

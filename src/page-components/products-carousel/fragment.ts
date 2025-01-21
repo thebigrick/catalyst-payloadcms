@@ -5,9 +5,7 @@ const Fragment = payloadGraphql(`
   fragment ProductsCarouselFragment on ProductsCarouselBlock {
     ${BoxBlockInclude}
     title
-    products {
-      entityId
-    }
+    products
   }
 `);
 

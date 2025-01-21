@@ -8,7 +8,7 @@ const CategoryFragment = graphql(`
   }
 `);
 
-const CategoryTree = graphql(
+const AdminCategoryTree = graphql(
   `
     query CategoryTree {
       site {
@@ -27,4 +27,4 @@ const CategoryTree = graphql(
   [CategoryFragment],
 );
 
-export default CategoryTree;
+export default AdminCategoryTree;

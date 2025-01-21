@@ -8,16 +8,17 @@ import { SelectFieldClientProps } from 'payload';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useDebounceCallback } from 'usehooks-ts';
 
+import MultiValueLabel from '@thebigrick/catalyst-payloadcms/fields/product-picker/multi-value-label';
 import ProductOption from '@thebigrick/catalyst-payloadcms/fields/product-picker/option';
+import SingleValue from '@thebigrick/catalyst-payloadcms/fields/product-picker/single-value';
 import useProducts from '@thebigrick/catalyst-payloadcms/fields/product-picker/use-products';
-import ValueContainer from '@thebigrick/catalyst-payloadcms/fields/product-picker/value-container';
 
 export interface Props extends SelectFieldClientProps {}
 
 // See: https://github.com/payloadcms/payload/blob/main/packages/ui/src/fields/Text/index.tsx
 
 const ProductPicker: React.FC<Props> = ({ field, path, readOnly }) => {
-  const { label, required } = field;
+  const { label, hasMany } = field;
 
   const { value, setValue } = useField<string>({ path });
   const [searchTerm, setSearchTerm] = useState<string>('');
@@ -51,26 +52,41 @@ const ProductPicker: React.FC<Props> = ({ field, path, readOnly }) => {
     [setValue],
   );
 
+  const components = useMemo(() => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const res: Record<string, React.FC<any>> = {
+      Option: ProductOption,
+    };
+
+    if (hasMany) {
+      res.MultiValueLabel = MultiValueLabel;
+    } else {
+      res.SingleValue = SingleValue;
+    }
+
+    return res;
+  }, [hasMany]);
+
   return (
     <div className="field-type select product-picker">
       <div className="label-wrapper">
         {/* @ts-expect-error Missing types here */}
         <FieldLabel field={field} htmlFor={`field-${path}`} label={label} />
       </div>
-
       <ReactSelect
-        components={{ Option: ProductOption, ValueContainer }}
+        components={components}
         disabled={!ready && readOnly}
-        filterOption={() => true}
         isClearable={true}
         isLoading={fetching || !ready}
-        isMulti={false}
+        isMulti={hasMany}
         isSearchable={true}
+        isSortable={true}
         onChange={handleChange}
         onInputChange={handleInputChange}
         options={options}
-        showError={!value && required}
-        value={options.find((option) => option.value === value)}
+        value={options.filter((option) =>
+          Array.isArray(value) ? value.includes(option.value) : option.value === value,
+        )}
       />
     </div>
   );
