@@ -9,9 +9,9 @@ import getPageCacheTag from '@thebigrick/catalyst-payloadcms/service/get-page-ca
  * @param {Page} page
  * @returns {Promise<void>}
  */
-const invalidatePage = async (page: Page): Promise<void> => {
+const invalidatePage = async (page?: Page): Promise<void> => {
   try {
-    if (page.slug) {
+    if (page?.slug) {
       const payloadConfig = await config;
       const locales = payloadConfig.localization ? payloadConfig.localization.localeCodes : ['en'];
       const defaultPath = page.slug.startsWith('/') ? page.slug : `/${page.slug}`;
@@ -29,7 +29,7 @@ const invalidatePage = async (page: Page): Promise<void> => {
       }
     }
 
-    if (page.id) {
+    if (page?.id) {
       revalidateTag(getPageCacheTag(page.id));
     }
   } catch (error) {

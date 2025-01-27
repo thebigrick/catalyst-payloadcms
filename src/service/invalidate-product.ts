@@ -10,9 +10,9 @@ import getProductCacheTag from '@thebigrick/catalyst-payloadcms/service/get-prod
  * @param {Product} product
  * @returns {Promise<void>}
  */
-const invalidateProduct = async (product: Product): Promise<void> => {
+const invalidateProduct = async (product?: Product): Promise<void> => {
   try {
-    if (product.entityId) {
+    if (product?.entityId) {
       const payloadConfig = await config;
       const locales = payloadConfig.localization ? payloadConfig.localization.localeCodes : ['en'];
       const productPaths = await getBigcommerceProductPaths(parseInt(product.entityId, 10));
@@ -30,9 +30,7 @@ const invalidateProduct = async (product: Product): Promise<void> => {
           revalidatePath(`/${locale}/${productPath}/`);
         }
       }
-    }
 
-    if (product.entityId) {
       revalidateTag(getProductCacheTag(product.entityId));
     }
   } catch (error) {

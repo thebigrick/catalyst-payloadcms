@@ -1,6 +1,6 @@
 {
   "name": "@thebigrick/catalyst-payloadcms",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "PayloadCMS integration for Catalyst",
   "main": "src/index.ts",
   "types": "src/index.ts",

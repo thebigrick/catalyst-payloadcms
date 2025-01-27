@@ -10,9 +10,9 @@ import getCategoryCacheTag from '@thebigrick/catalyst-payloadcms/service/get-cat
  * @param {Product} category
  * @returns {Promise<void>}
  */
-const invalidateCategory = async (category: Category): Promise<void> => {
+const invalidateCategory = async (category?: Category): Promise<void> => {
   try {
-    if (category.entityId) {
+    if (category?.entityId) {
       const payloadConfig = await config;
       const locales = payloadConfig.localization ? payloadConfig.localization.localeCodes : ['en'];
       const categoryPath = await getBigcommerceCategoryPath(parseInt(category.entityId, 10));
@@ -31,9 +31,7 @@ const invalidateCategory = async (category: Category): Promise<void> => {
         revalidatePath(`/${locale}/${categoryPath}`);
         revalidatePath(`/${locale}/${categoryPath}/`);
       }
-    }
 
-    if (category.entityId) {
       revalidateTag(getCategoryCacheTag(category.entityId));
     }
   } catch (error) {
