@@ -3,7 +3,7 @@ import { valuePlugin } from '@thebigrick/catalyst-pluginizr';
 import { getLocale as getServerLocale } from 'next-intl/server';
 
 import addTypenameToQuery from '@thebigrick/catalyst-payloadcms/service/add-typename-to-query';
-import transformPaths from '@thebigrick/catalyst-payloadcms/service/paths/transform-paths';
+import alterProductsAndCategories from '@thebigrick/catalyst-payloadcms/service/alter-data/alter-products-and-categories';
 
 const getLocale = async () => {
   try {
@@ -23,7 +23,7 @@ const getLocale = async () => {
 
 export default valuePlugin<typeof client>({
   resourceId: '@bigcommerce/catalyst-core/client:client',
-  name: 'map-paths',
+  name: 'alter-bigcommerce-response',
   wrap: (c) => {
     const originalFetch = c.fetch.bind(c);
 
@@ -37,8 +37,8 @@ export default valuePlugin<typeof client>({
         const locale = await getLocale();
 
         if (locale) {
-          // @ts-expect-error Too generic
-          await transformPaths(res.data, locale);
+          // @ts-expect-error Too generic type
+          await alterProductsAndCategories(res.data, locale);
         }
       } catch {
         /* This may not work at build time */

@@ -20,7 +20,7 @@ export const invalidateCacheOnStatusChange: CollectionAfterChangeHook = async (a
       '@thebigrick/catalyst-payloadcms/service/invalidate-category'
     );
 
-    if (doc.seo?.categoryPath !== prevDoc.seo?.categoryPath) {
+    if (doc.seo?.path !== prevDoc.seo?.path) {
       await invalidatePaths();
     }
 
@@ -94,11 +94,29 @@ const Category: CollectionConfig = {
       type: 'group',
       fields: [
         {
-          name: 'categoryPath',
+          name: 'title',
+          type: 'text',
+          label: 'Title',
+          localized: true,
+        },
+        {
+          name: 'path',
           type: 'text',
           label: 'Custom path',
           localized: true,
           unique: true,
+        },
+        {
+          name: 'metaDescription',
+          type: 'text',
+          label: 'Meta description',
+          localized: true,
+        },
+        {
+          name: 'metaKeywords',
+          type: 'text',
+          label: 'Meta keywords',
+          localized: true,
         },
       ],
     },
@@ -109,8 +127,8 @@ const Category: CollectionConfig = {
       fields: [
         {
           name: 'blocks',
-          localized: true,
           type: 'blocks',
+          localized: true,
           label: 'Blocks',
           blocks: [...componentSchemas, ...containerSchemas],
         },

@@ -1,12 +1,12 @@
-import getEntityIdsByCustomPaths from '@thebigrick/catalyst-payloadcms/service/paths/get-entity-ids-by-custom-paths';
+import getEntityIdsByCustomPaths from '@thebigrick/catalyst-payloadcms/service/alter-data/get-entity-ids-by-custom-paths';
 
 export type CustomPathResponse = Record<string, string>;
 
 /**
- * Map custom paths to their respective entities urls
+ * Map custom alter-data to their respective entities urls
  * @param {string[]} paths
  * @param {string} locale
- * @returns {Promise<CustomPathResponse>} The custom paths mapped to their respective entity urls
+ * @returns {Promise<CustomPathResponse>} The custom alter-data mapped to their respective entity urls
  */
 const mapCustomPathsToResourcesPath = async (
   paths: string[],

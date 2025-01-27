@@ -26,7 +26,7 @@ const getEntityIdsByCustomPaths = async (
     variables: { paths, locale },
     fetchOptions: {
       next: {
-        tags: ['payloadcms-paths'],
+        tags: ['payloadcms-alter-data'],
         revalidate: 86400,
       },
     },
@@ -35,11 +35,11 @@ const getEntityIdsByCustomPaths = async (
   // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
   const categories = (res.Categories.docs as Category[]).reduce<CustomPathsResponse['categories']>(
     (acc, category) => {
-      if (category.seo?.categoryPath) {
+      if (category.seo?.path) {
         const entityId = parseInt(category.entityId, 10);
 
         if (entityId) {
-          acc[category.seo.categoryPath] = entityId;
+          acc[category.seo.path] = entityId;
         }
       }
 
@@ -51,11 +51,11 @@ const getEntityIdsByCustomPaths = async (
   // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
   const products = (res.Products.docs as Product[]).reduce<CustomPathsResponse['products']>(
     (acc, product) => {
-      if (product.seo?.productPath) {
+      if (product.seo?.path) {
         const entityId = parseInt(product.entityId, 10);
 
         if (entityId) {
-          acc[product.seo.productPath] = entityId;
+          acc[product.seo.path] = entityId;
         }
       }
 

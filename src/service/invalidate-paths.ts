@@ -1,14 +1,14 @@
 import { revalidateTag } from 'next/cache';
 
 /**
- * Invalidate paths
+ * Invalidate alter-data
  * @returns {Promise<void>}
  */
 const invalidatePaths = async (): Promise<void> => {
   try {
-    revalidateTag('payloadcms-paths');
+    revalidateTag('payloadcms-alter-data');
   } catch (error) {
-    console.error('Error invalidating paths', error);
+    console.error('Error invalidating alter-data', error);
   }
 
   return Promise.resolve();

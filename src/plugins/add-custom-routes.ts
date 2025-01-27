@@ -3,8 +3,8 @@ import { withRoutes } from '@bigcommerce/catalyst-core/middlewares/with-routes';
 import { functionPlugin } from '@thebigrick/catalyst-pluginizr';
 import { NextResponse } from 'next/server';
 
+import mapCustomPathsToResourcesPath from '@thebigrick/catalyst-payloadcms/service/alter-data/map-custom-paths-to-resources-path';
 import clearLocaleFromPath from '@thebigrick/catalyst-payloadcms/service/clear-locale-from-path';
-import mapCustomPathsToResourcesPath from '@thebigrick/catalyst-payloadcms/service/paths/map-custom-paths-to-resources-path';
 
 const addCustomRoutes = functionPlugin<typeof withRoutes>({
   name: 'add-custom-routes',

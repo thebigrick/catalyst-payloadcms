@@ -3,20 +3,20 @@ import { payloadGraphql } from '@thebigrick/catalyst-payloadcms/service/payload-
 const SearchEntityIdsByCustomPaths = payloadGraphql(
   `
 query SearchEntityIdsByCustomPaths($paths: [String], $locale:LocaleInputType!) {
-  Categories(where:{seo__categoryPath:{in:$paths}}, locale:$locale) {
+  Categories(where:{seo__path:{in:$paths}}, locale:$locale) {
     docs {
       entityId
       seo {
-        categoryPath
+        path
       }
     }
   }
   
-  Products(where:{seo__productPath:{in:$paths}}, locale:$locale) {
+  Products(where:{seo__path:{in:$paths}}, locale:$locale) {
     docs {
       entityId
       seo {
-        productPath
+        path
       }
     }
   }

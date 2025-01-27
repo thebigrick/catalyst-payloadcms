@@ -20,7 +20,7 @@ export const invalidateCacheOnStatusChange: CollectionAfterChangeHook = async (a
       '@thebigrick/catalyst-payloadcms/service/invalidate-product'
     );
 
-    if (doc.seo?.productPath !== prevDoc.seo?.productPath) {
+    if (doc.seo?.path !== prevDoc.seo?.path) {
       await invalidatePaths();
     }
 
@@ -38,7 +38,7 @@ export const invalidateCacheOnDelete: CollectionAfterDeleteHook = async (args) =
       '@thebigrick/catalyst-payloadcms/service/invalidate-product'
     );
 
-    if (doc.seo?.productPath) {
+    if (doc.seo?.path) {
       await invalidatePaths();
     }
 
@@ -97,11 +97,29 @@ const Product: CollectionConfig = {
       type: 'group',
       fields: [
         {
-          name: 'productPath',
+          name: 'title',
+          type: 'text',
+          label: 'Title',
+          localized: true,
+        },
+        {
+          name: 'path',
           type: 'text',
           label: 'Custom path',
           localized: true,
           unique: true,
+        },
+        {
+          name: 'metaDescription',
+          type: 'text',
+          label: 'Meta description',
+          localized: true,
+        },
+        {
+          name: 'metaKeywords',
+          type: 'text',
+          label: 'Meta keywords',
+          localized: true,
         },
       ],
     },
@@ -109,11 +127,12 @@ const Product: CollectionConfig = {
       name: 'heading',
       label: 'Heading',
       type: 'group',
+
       fields: [
         {
           name: 'blocks',
-          localized: true,
           type: 'blocks',
+          localized: true,
           label: 'Blocks',
           blocks: [...componentSchemas, ...containerSchemas],
         },
@@ -133,7 +152,6 @@ const Product: CollectionConfig = {
         {
           name: 'blocks',
           type: 'blocks',
-          localized: true,
           label: 'Blocks',
           blocks: [...componentSchemas, ...containerSchemas],
         },
